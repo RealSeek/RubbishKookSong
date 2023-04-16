@@ -46,11 +46,6 @@ public class NeteaseAudioList implements UserCommandExecutor {
                         // 更新卡片
                         PlayMusic.getBotMessage1().delete();
                         PlayMusic.getBotMessage2().delete();
-                        // 不会自动删除
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
                         // 设置状态
                         PlayMusic.setFist(false);
                     } else {
