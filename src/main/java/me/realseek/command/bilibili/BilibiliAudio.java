@@ -37,8 +37,6 @@ public class BilibiliAudio implements UserCommandExecutor {
                 if (musicDownloadUrl == null) {
                     message.reply("似乎找不到这个视频捏");
                 } else {
-                    // 添加到下载列表内
-                    // Main.getMusicUrlList().add(musicDownloadUrl);
                     // 判断Bot状态
                     if (JudgeBotInVoice.status(sender, arguments, message) == true) {
                         // Bot在语音内
@@ -47,17 +45,9 @@ public class BilibiliAudio implements UserCommandExecutor {
                         Main.getMusicPicList().add(bilibili.getPic());
                         // 删除”已添加“
                         DelMsg.delMsg(message);
-                        // 拿 Bot 消息ID
-                        // TextChannelMessage textChannelMessage1 = PlayMusic.getBotMessage1();
-                        // TextChannelMessage textChannelMessage2 = PlayMusic.getBotMessage2();
                         // 更新卡片
                         PlayMusic.getBotMessage1().delete();
                         PlayMusic.getBotMessage2().delete();
-                        // 不会自动删除
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
                         // 设置状态
                         PlayMusic.setFist(false);
                         // 由于在语音内不需要启动计时器，计时器内有检测歌单数量的方法进行播放

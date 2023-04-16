@@ -36,8 +36,6 @@ public class NeteaseAudio implements UserCommandExecutor {
                     System.out.println("cookie过期或无版权");
                     message.reply("cookie过期或无版权");
                 } else {
-                    // 添加到下载列表内
-                    // Main.getMusicUrlList().add(musicDownloadUrl);
                     // 判断Bot状态
                     if (JudgeBotInVoice.status(sender, arguments, message) == true) {
                         // Bot在语音内
@@ -49,11 +47,6 @@ public class NeteaseAudio implements UserCommandExecutor {
                         // 更新卡片
                         PlayMusic.getBotMessage1().delete();
                         PlayMusic.getBotMessage2().delete();
-                        // 不会自动删除
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
                         // 设置状态
                         PlayMusic.setFist(false);
                         // 由于在语音内不需要启动计时器，计时器内有检测歌单数量的方法进行播放
