@@ -1,0 +1,37 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
+}
+
+group = 'me.realseek'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    shadow localGroovy()
+    shadow gradleApi()
+
+    implementation 'com.github.SNWCreations:JKook:3e89cde'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'cn.hutool:hutool-all:5.8.16'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    configurations {
+        compile.exclude group: 'com.github.SNWCreations'
+    }
+}
