@@ -1,15 +1,19 @@
 package me.realseek;
 
 import me.realseek.command.BotStatus;
+import me.realseek.command.Help;
 import me.realseek.command.bilibili.BilibiliAudio;
 import me.realseek.command.netease.NeteaseAudio;
 import me.realseek.command.netease.NeteaseAudioList;
 import me.realseek.command.netease.NeteaseLogin;
 import me.realseek.command.LeaveChannelCommand;
+import me.realseek.command.qqmuisc.QQMusicAudio;
+import me.realseek.command.qqmuisc.QQMusicCookie;
 import me.realseek.ffmpeg.PlayMusic;
 import me.realseek.listener.ButtonListener;
 import me.realseek.pojo.Bilibili;
 import me.realseek.pojo.Netease;
+import me.realseek.pojo.QQMusic;
 import me.realseek.timer.ProcessStatus;
 import snw.jkook.JKook;
 import snw.jkook.command.JKookCommand;
@@ -36,6 +40,8 @@ public class Main extends BasePlugin {
     static PlayMusic playMusic = new PlayMusic();
     // 网易云对象
     static Netease netease = new Netease();
+    // QQ音乐对象
+    static QQMusic qqMusic = new QQMusic();
     // Bilibili对象
     static Bilibili bilibili = new Bilibili();
     // 用于构建消息
@@ -143,13 +149,23 @@ public class Main extends BasePlugin {
 
     // 指令部分
     private void registerCommands() {
+        new JKookCommand("帮助")
+                .addAlias("help")
+                .setDescription("帮助指南")
+                .executesUser(new Help())
+                .register(this);
+
+        new JKookCommand("状态")
+                .setDescription("查询Bot使用状态")
+                .executesUser(new BotStatus())
+                .register(this);
         // 调试功能
         new JKookCommand("停止")
                 .setDescription("让机器人停止活动")
                 .executesUser(new LeaveChannelCommand())
                 .register(this);
 
-        new JKookCommand("nlogin")
+        new JKookCommand("网易登录")
                 .setDescription("网易云API登录")
                 .executesUser(new NeteaseLogin())
                 .register(this);
@@ -164,6 +180,18 @@ public class Main extends BasePlugin {
                 .executesUser(new NeteaseAudioList())
                 .register(this);
 
+        new JKookCommand("qq刷新")
+                .addAlias("QQ刷新")
+                .setDescription("QQ音乐刷新cookie")
+                .executesUser(new QQMusicCookie())
+                .register(this);
+
+        new JKookCommand("qq")
+                .addAlias("QQ")
+                .setDescription("QQ音乐点歌")
+                .executesUser(new QQMusicAudio())
+                .register(this);
+
         new JKookCommand( "b站")
                 .setDescription("点播B站视频")
                 .addAlias("B站")
@@ -176,10 +204,6 @@ public class Main extends BasePlugin {
                 )
                 .register(this);
 
-        new JKookCommand("状态")
-                .setDescription("查询Bot使用状态")
-                .executesUser(new BotStatus())
-                .register(this);
     }
 
     // Getter and Setter
@@ -342,5 +366,9 @@ public class Main extends BasePlugin {
      */
     public static LinkedList<Integer> getMusicIdList() {
         return musicIdList;
+    }
+
+    public static QQMusic getQqMusic() {
+        return qqMusic;
     }
 }

@@ -6,6 +6,7 @@ import cn.hutool.http.HttpUtil;
 import me.realseek.Main;
 import me.realseek.api.BilibiliAPI;
 import me.realseek.api.NeteaseAPI;
+import me.realseek.api.QQMusicAPI;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -25,14 +26,11 @@ public class DownloadMp3 {
             System.out.println("已删除文件");
         }
         // 判断url来源
-        Pattern url = Pattern.compile("B站");
-        Matcher m = url.matcher(Main.getMusicTitleList().get(0));
-        if (!m.find()) {
-            // 网易云下载
-            String musicDownloadUrl = NeteaseAPI.neteaseMusicDownloadUrl(Main.getMusicIdList().get(0));
-            HttpUtil.downloadFile(musicDownloadUrl, file);
-            return "网易";
-        }else {
+        Pattern bili = Pattern.compile("B站");
+        Pattern QQ = Pattern.compile("QQ音乐");
+        Matcher m_bili = bili.matcher(Main.getMusicTitleList().get(0));
+        Matcher m_QQ = QQ.matcher(Main.getMusicTitleList().get(0));
+        if (m_bili.find()) {
             // B站下载
             String musicDownloadUrl = BilibiliAPI.biliVideo(Main.getBilibili().getBvNum());
             HttpRequest.get(musicDownloadUrl)
@@ -40,6 +38,16 @@ public class DownloadMp3 {
                     .header(Header.REFERER, "https://www.bilibili.com")
                     .execute().writeBody(file);
             return "B站";
+        }else if (m_QQ.find()){
+            // QQ音乐下载
+            String musicDownloadUrl = QQMusicAPI.qqMusicDownloadUrl(Main.getQqMusic().getSongmid());
+            HttpUtil.downloadFile(musicDownloadUrl, file);
+            return "QQ音乐";
+        }else {
+            // 网易云下载
+            String musicDownloadUrl = NeteaseAPI.neteaseMusicDownloadUrl(Main.getMusicIdList().get(0));
+            HttpUtil.downloadFile(musicDownloadUrl, file);
+            return "网易";
         }
     }
 }

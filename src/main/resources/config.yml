@@ -1,4 +1,11 @@
 ﻿# 网易云api扫码登录返回的cookie
 Netease_Url_Cookie: ""
 
+# QQ音乐api需要登录的QQ号
+QQMusic_ID: ""
+
+# QQ音乐api登录cookie 注意必须和QQ号对应
+QQMusic_Url_Cookie: ""
+
+# 插件管理员ID
 BotAdmin: ["2038278961", "管理员ID"]

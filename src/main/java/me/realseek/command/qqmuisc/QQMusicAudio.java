@@ -1,9 +1,10 @@
-package me.realseek.command.netease;
+package me.realseek.command.qqmuisc;
 
 import me.realseek.Main;
 import me.realseek.api.NeteaseAPI;
+import me.realseek.api.QQMusicAPI;
 import me.realseek.ffmpeg.PlayMusic;
-import me.realseek.pojo.Netease;
+import me.realseek.pojo.QQMusic;
 import me.realseek.timer.ProcessStatus;
 import me.realseek.util.*;
 import org.jetbrains.annotations.Nullable;
@@ -11,24 +12,21 @@ import snw.jkook.command.UserCommandExecutor;
 import snw.jkook.entity.User;
 import snw.jkook.message.Message;
 
-public class NeteaseAudio implements UserCommandExecutor {
-    static Netease netease = Main.getNetease();
-
+public class QQMusicAudio implements UserCommandExecutor {
+    static QQMusic qqMusic = Main.getQqMusic();
     @Override
     public void onCommand(User sender, Object[] arguments, @Nullable Message message) {
         if (InChannel.inChannel(sender, arguments, message)) {
             try {
-                System.out.println("进入网易云点歌");
+                System.out.println("进入QQ音乐点歌");
                 // 传出Message
                 Main.setMessage(message);
                 // 获取处理后的点歌参数
                 String parameters = MessageUtil.getFullMessage(sender, arguments, message);
-                // 获取歌曲ID (处理了一下&避免作为参数分隔符)
-                int musicId = NeteaseAPI.neteaseMusicId(parameters.replace("&", "%26"));
                 // 获取歌曲信息
-                NeteaseAPI.neteaseMusicInfo(musicId);
+                QQMusicAPI.qqMusicSearch(parameters);
                 // 获取歌曲下载链接
-                String musicDownloadUrl = NeteaseAPI.neteaseMusicDownloadUrl(musicId);
+                String musicDownloadUrl = QQMusicAPI.qqMusicDownloadUrl(qqMusic.getSongmid());
                 if (musicDownloadUrl.equals("cookie过期或无版权")) {
                     System.out.println("cookie过期或无版权");
                     message.reply("cookie过期或无版权");
@@ -37,8 +35,8 @@ public class NeteaseAudio implements UserCommandExecutor {
                     if (JudgeBotInVoice.status(sender, arguments, message) == true) {
                         // Bot在语音内
                         // 添加播放列表
-                        Main.getMusicTitleList().add("网易：" + netease.getName() + " - " + netease.getArtName());
-                        Main.getMusicPicList().add(netease.getMusicPicUrl());
+                        Main.getMusicTitleList().add("QQ音乐：" + qqMusic.getName() + " - " + qqMusic.getArtName());
+                        Main.getMusicPicList().add(qqMusic.getPicUrl());
                         // 删除”已添加“
                         DelMsg.delMsg(message);
                         // 更新卡片
@@ -56,8 +54,8 @@ public class NeteaseAudio implements UserCommandExecutor {
                         // 加入语音
                         JoinChannel.joinChannel(sender, arguments, message);
                         // 添加播放列表
-                        Main.getMusicTitleList().add("网易：" + netease.getName() + " - " + netease.getArtName());
-                        Main.getMusicPicList().add(netease.getMusicPicUrl());
+                        Main.getMusicTitleList().add("QQ音乐：" + qqMusic.getName() + " - " + qqMusic.getArtName());
+                        Main.getMusicPicList().add(qqMusic.getPicUrl());
                         // 设置UUID
                         Main.setMsgMuiscNoPlay(message.reply("已添加"));
                         Main.setBotMessageNoPlay(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(Main.getMsgMuiscNoPlay()));
@@ -73,9 +71,10 @@ public class NeteaseAudio implements UserCommandExecutor {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("出现报错:\n" + e);
-                System.out.println("\n已将错误输出");
-                System.out.println("未获取到歌曲信息，请检查网易云是否有这首歌");
+                // System.out.println("出现报错:\n" + e);
+                // System.out.println("\n已将错误输出");
+                // System.out.println("未获取到歌曲信息，请检查QQ音乐是否有这首歌");
+                throw new RuntimeException(e);
             }
         } else {
             message.reply("你当前似乎不在语音频道内");
