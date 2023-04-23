@@ -3,10 +3,7 @@ package me.realseek.ffmpeg;
 import me.realseek.Main;
 import me.realseek.voice.SimpleWebSocketListener;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FFmpeg implements Runnable{
 

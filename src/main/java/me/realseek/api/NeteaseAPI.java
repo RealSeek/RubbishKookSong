@@ -3,7 +3,6 @@ package me.realseek.api;
 import me.realseek.Main;
 import me.realseek.pojo.Netease;
 import me.realseek.timer.CheckQRStatus;
-import me.realseek.util.QRCodeUtil;
 import me.realseek.util.apimethod.NeteaseMethod;
 
 public class NeteaseAPI {

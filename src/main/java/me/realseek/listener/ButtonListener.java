@@ -21,8 +21,6 @@ public class ButtonListener implements Listener {
             Main.getMusicTitleList().remove(0);
             // 封面
             Main.getMusicPicList().remove(0);
-            // 歌曲链接
-            // Main.getMusicUrlList().remove(0);
             // 歌曲ID
             if (PlayMusic.getMusic().equals("网易")) {
                 Main.getMusicIdList().remove(0);

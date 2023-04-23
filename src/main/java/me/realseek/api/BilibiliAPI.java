@@ -2,8 +2,6 @@ package me.realseek.api;
 
 import me.realseek.util.apimethod.BilibiliMethod;
 
-import java.io.IOException;
-
 public class BilibiliAPI {
 
     /**

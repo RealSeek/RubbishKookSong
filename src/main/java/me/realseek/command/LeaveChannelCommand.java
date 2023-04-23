@@ -4,7 +4,6 @@ import me.realseek.Main;
 import me.realseek.ffmpeg.FFmpeg;
 import me.realseek.ffmpeg.PlayMusic;
 import me.realseek.voice.JoinVoice;
-import me.realseek.voice.SimpleWebSocketListener;
 import org.jetbrains.annotations.Nullable;
 import snw.jkook.command.UserCommandExecutor;
 import snw.jkook.entity.User;
@@ -40,8 +39,6 @@ public class LeaveChannelCommand implements UserCommandExecutor {
                     Main.getMusicTitleList().clear();
                     // 封面
                     Main.getMusicPicList().clear();
-                    // 歌曲链接
-                    // Main.getMusicUrlList().clear();
                     // 歌曲ID
                     if (PlayMusic.getMusic().equals("网易")) {
                         Main.getMusicIdList().remove(0);
