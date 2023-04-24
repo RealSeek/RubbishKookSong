@@ -40,7 +40,7 @@ public class LeaveChannelCommand implements UserCommandExecutor {
                     // 封面
                     Main.getMusicPicList().clear();
                     // 歌曲ID
-                    if (PlayMusic.getMusic().equals("网易")) {
+                    if (!Main.getMusicIdList().isEmpty()) {
                         Main.getMusicIdList().remove(0);
                     }
                     msg3.delete();

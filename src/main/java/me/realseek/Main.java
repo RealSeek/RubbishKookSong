@@ -36,6 +36,7 @@ public class Main extends BasePlugin {
     private static String configPath;
     private static String ffmpegPath;
     private static String resPath;
+    private static String menuPath;
     private static String token;
     static PlayMusic playMusic = new PlayMusic();
     // 网易云对象
@@ -77,9 +78,11 @@ public class Main extends BasePlugin {
         File res = new File(getDataFolder().getPath());
         File configFile = new File(getDataFolder().getPath() + "\\config.yml");
         File ffmpegFile = new File(getDataFolder().getPath() + "\\ffmpeg.exe");
+        File menuFile = new File(getDataFolder().getPath() + "\\menu.jpg");
         resPath = res.getAbsolutePath();
         configPath = configFile.getAbsolutePath();
         ffmpegPath = ffmpegFile.getAbsolutePath();
+        menuPath = menuFile.getAbsolutePath();
 
         // 获取token
         File kbc = new File("kbc.yml");
@@ -111,6 +114,13 @@ public class Main extends BasePlugin {
             System.out.println("未检测到配置文件，已为你重新加载");
             saveDefaultConfig();
         }
+
+        if (!menuFile.isFile()){
+            System.out.println("未检测到菜单，已为你重新加载");
+            saveResource("menu.jpg", false, false);
+            saveDefaultConfig();
+        }
+
         getLogger().info("初始化结束！");
     }
 
@@ -381,4 +391,9 @@ public class Main extends BasePlugin {
     public static void setPlayStatus(Boolean playStatus) {
         Main.playStatus = playStatus;
     }
+
+    public static String getMenuPath() {
+        return menuPath;
+    }
+
 }

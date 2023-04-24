@@ -12,7 +12,6 @@ import snw.jkook.message.component.card.element.ImageElement;
 import snw.jkook.message.component.card.element.MarkdownElement;
 import snw.jkook.message.component.card.element.PlainTextElement;
 import snw.jkook.message.component.card.module.ActionGroupModule;
-import snw.jkook.message.component.card.module.ContextModule;
 import snw.jkook.message.component.card.module.SectionModule;
 
 import java.util.Arrays;
@@ -142,7 +141,6 @@ public class Card {
     public static MultipleCardComponent helpCard(){
         CardBuilder cardBuilder = new CardBuilder();
         cardBuilder.setTheme(Theme.INFO).setSize(Size.LG);
-
         cardBuilder.addModule(new SectionModule(
                 new MarkdownElement("---\n" +
                         "**(font)网易云音乐(font)[success]**\n" +
@@ -150,14 +148,12 @@ public class Card {
                         "/网易 歌名 : 点网易云音乐的歌曲\n例如：\n`/网易 你瞒我瞒`\n\n" +
                         "/网易歌单 url : 导入歌单内全部的歌曲\n导入过程最好不要进行任何操作以免出现问题 \n例如: \n`/网易歌单 https://music.163.com/playlist?id=10602549&userid=67607919`\n\n"),null,Accessory.Mode.RIGHT
         ));
-
         cardBuilder.addModule(new SectionModule(
                 new MarkdownElement("---\n" +
                         "**(font)QQ音乐(font)[success]**\n" +
                         "/qq刷新 : 将配置文件内的qq音乐cookie导入到api内\n`注意cookie只有一天有效期 过期后更改配置文件内的cookie后直接输入此指令即可`\n\n" +
                         "/qq 歌名 : 点QQ音乐平台的歌曲\n例如：\n`/QQ 你瞒我瞒`\n\n"),null,Accessory.Mode.RIGHT
         ));
-
         cardBuilder.addModule(new SectionModule(
                 new MarkdownElement("---\n" +
                         "**(font)Bilibili(font)[success]**\n" +
