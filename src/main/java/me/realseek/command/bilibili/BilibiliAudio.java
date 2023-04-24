@@ -46,12 +46,14 @@ public class BilibiliAudio implements UserCommandExecutor {
                         // 删除”已添加“
                         DelMsg.delMsg(message);
                         // 更新卡片
-                        PlayMusic.getBotMessage1().delete();
-                        PlayMusic.getBotMessage2().delete();
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+                        if (Main.getPlayStatus()) {
+                            PlayMusic.getBotMessage1().delete();
+                            PlayMusic.getBotMessage2().delete();
+                            PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
+                            PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
+                            PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
+                            PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+                        }
                         // 设置状态
                         PlayMusic.setFist(false);
                         // 由于在语音内不需要启动计时器，计时器内有检测歌单数量的方法进行播放

@@ -40,12 +40,15 @@ public class QQMusicAudio implements UserCommandExecutor {
                         // 删除”已添加“
                         DelMsg.delMsg(message);
                         // 更新卡片
-                        PlayMusic.getBotMessage1().delete();
-                        PlayMusic.getBotMessage2().delete();
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+                        // 判断播放状态
+                        if (Main.getPlayStatus()) {
+                            PlayMusic.getBotMessage1().delete();
+                            PlayMusic.getBotMessage2().delete();
+                            PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
+                            PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
+                            PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
+                            PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+                        }
                         // 设置状态
                         PlayMusic.setFist(false);
                         // 由于在语音内不需要启动计时器，计时器内有检测歌单数量的方法进行播放
@@ -70,11 +73,10 @@ public class QQMusicAudio implements UserCommandExecutor {
                         message.reply("抱歉，当前Bot正在别的频道放歌，暂时不能使用这个Bot");
                     }
                 }
-            } catch (Exception e) {
-                // System.out.println("出现报错:\n" + e);
-                // System.out.println("\n已将错误输出");
-                // System.out.println("未获取到歌曲信息，请检查QQ音乐是否有这首歌");
-                throw new RuntimeException(e);
+            } catch (NullPointerException e) {
+                message.reply("未获取到音乐，请检查QQ音乐Cookie是否过期或歌曲不存在");
+            } catch (IndexOutOfBoundsException e) {
+                message.reply("接口搜索不到歌曲信息，这通常是API的问题，请重试");
             }
         } else {
             message.reply("你当前似乎不在语音频道内");

@@ -1,8 +1,10 @@
 package me.realseek.timer;
 
 import me.realseek.Main;
+import me.realseek.command.LeaveChannelCommand;
 import me.realseek.ffmpeg.FFmpeg;
 import me.realseek.ffmpeg.PlayMusic;
+import me.realseek.util.Card;
 import me.realseek.voice.JoinVoice;
 import me.realseek.voice.SimpleWebSocketListener;
 import snw.jkook.message.TextChannelMessage;
@@ -21,6 +23,14 @@ public class ProcessStatus {
     public void start() {
         if (Main.getMusicTitleList().isEmpty()) {
             System.out.println("检测到列表为空，为避免不必要的麻烦，请手动输入/停止或等待机器人自动退出");
+            Main.setPlayStatus(false);
+            // 更新卡片
+            PlayMusic.getBotMessage1().delete();
+            PlayMusic.getBotMessage2().delete();
+            PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.noPlayCard()));
+            PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.noPlayList()));
+            PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
+            PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
         }
         timer.schedule(new DetectionTask(), 0, 1000);// 每秒执行一次任务
         timer.schedule(new CloseTask(), 30000); // 60秒后执行关闭
@@ -36,8 +46,29 @@ public class ProcessStatus {
                 try {
                     // 启动推流
                     System.out.println("检测列表内还有歌曲取消空闲计时");
+                    Main.setPlayStatus(true);
                     Main.getPlayMusic().playMusic();
                 } catch (IOException | InterruptedException e) {
+                    Main.getMessage().reply("出现致命错误，已清除所有队列");
+                    // 关闭进程
+                    if (FFmpeg.getZMQ().isAlive()) {
+                        FFmpeg.getZMQ().destroy();
+                        PlayMusic.getPlayMusicProcess().destroy();
+                    }
+                    // 删除消息
+                    if (PlayMusic.getBotMessage1() != null) {
+                        PlayMusic.getBotMessage1().delete();
+                        PlayMusic.getBotMessage2().delete();
+                    }
+                    // 清空所有
+                    // 标题
+                    Main.getMusicTitleList().clear();
+                    // 封面
+                    Main.getMusicPicList().clear();
+                    // 歌曲ID
+                    if (PlayMusic.getMusic().equals("网易")) {
+                        Main.getMusicIdList().remove(0);
+                    }
                     throw new RuntimeException(e);
                 }
                 timer.cancel();
@@ -54,7 +85,7 @@ public class ProcessStatus {
                 PlayMusic.getPlayMusicProcess().destroy();
             }
             // 删除消息
-            if (PlayMusic.getBotMessage1() != null){
+            if (PlayMusic.getBotMessage1() != null) {
                 PlayMusic.getBotMessage1().delete();
                 PlayMusic.getBotMessage2().delete();
             }

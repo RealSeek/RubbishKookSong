@@ -64,7 +64,7 @@ public class QQMusicMethod {
     public static void getQQMusicInfo(String singName){
         try (Response request = client.newCall(
                 new Request.Builder()
-                        .post(RequestBody.create("", null))
+                        .get()
                         .url("http://localhost:3300/search?key=" + singName + "&pageNo=1&pageSize=1&t=0")
                         .build()
         ).execute()) {

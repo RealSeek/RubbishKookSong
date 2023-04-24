@@ -46,6 +46,8 @@ public class Main extends BasePlugin {
     static Bilibili bilibili = new Bilibili();
     // 用于构建消息
     static Message message;
+    // 判断播放状态
+    static Boolean playStatus;
     // 存储歌曲ID
     static LinkedList<Integer> musicIdList = new LinkedList<Integer>();
 
@@ -370,5 +372,13 @@ public class Main extends BasePlugin {
 
     public static QQMusic getQqMusic() {
         return qqMusic;
+    }
+
+    public static Boolean getPlayStatus() {
+        return playStatus;
+    }
+
+    public static void setPlayStatus(Boolean playStatus) {
+        Main.playStatus = playStatus;
     }
 }

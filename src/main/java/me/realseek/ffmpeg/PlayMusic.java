@@ -28,6 +28,18 @@ public class PlayMusic{
     // 进入播放
     public void playMusic() throws IOException, InterruptedException {
         del = false;
+        if (fist){
+            // 如果是第一次进入这个方法
+            // 删除信息后发送
+            TextChannelMessage msg = Main.getBotMessageNoPlay();
+            msg.delete();
+            // 原发送卡片
+            fist = false;
+        }else {
+            botMessage1.delete();
+            botMessage2.delete();
+        }
+
         // 先下载
         music = DownloadMp3.downloadMp3();
         // 构建推流命令
@@ -38,18 +50,6 @@ public class PlayMusic{
         pb.redirectErrorStream(true);
         // 启动
         playMusicProcess = pb.start();
-        if (fist){
-            // 如果是第一次进入这个方法
-            // 删除信息后发送
-            TextChannelMessage msg = Main.getBotMessageNoPlay();
-            msg.delete();
-            // 原发送卡片
-            fist = false;
-        }else {
-            // 更新卡片 先删除后发送
-            botMessage1.delete();
-            botMessage2.delete();
-        }
         // 发送卡片
         msgMusicNow = Main.getMessage().sendToSource(Card.playCard());
         msgMuiscList = Main.getMessage().sendToSource(Card.playList());
@@ -66,22 +66,21 @@ public class PlayMusic{
                 // 封面
                 Main.getMusicPicList().remove(0);
                 // 歌曲链接
-                // Main.getMusicUrlList().remove(0);
                 if (music.equals("网易")) {
                     // 歌曲ID
                     Main.getMusicIdList().remove(0);
                 }
             }
         }
-        if (Main.getMusicTitleList().size() == 0) {
-            // 更新卡片
-            botMessage1.delete();
-            botMessage2.delete();
-            msgMusicNow = Main.getMessage().sendToSource(Card.noPlayCard());
-            msgMuiscList = Main.getMessage().sendToSource(Card.noPlayList());
-            botMessage1 = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMusicNow);
-            botMessage2 = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMuiscList);
-        }
+        // if (Main.getMusicTitleList().size() == 0) {
+        //     // 更新卡片
+        //     botMessage1.delete();
+        //     botMessage2.delete();
+        //     msgMusicNow = Main.getMessage().sendToSource(Card.noPlayCard());
+        //     msgMuiscList = Main.getMessage().sendToSource(Card.noPlayList());
+        //     botMessage1 = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMusicNow);
+        //     botMessage2 = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMuiscList);
+        // }
         // 结束播放后开始⏲
         Main.setProcessStatus(new ProcessStatus());
         Main.getProcessStatus().start();
