@@ -25,12 +25,9 @@ public class ProcessStatus {
             System.out.println("检测到列表为空，为避免不必要的麻烦，请手动输入/停止或等待机器人自动退出");
             Main.setPlayStatus(false);
             // 更新卡片
-            PlayMusic.getBotMessage1().delete();
-            PlayMusic.getBotMessage2().delete();
+            PlayMusic.getBotMessage().delete();
             PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.noPlayCard()));
-            PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.noPlayList()));
-            PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-            PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+            PlayMusic.setBotMessage(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
         }
         timer.schedule(new DetectionTask(), 0, 1000);// 每秒执行一次任务
         timer.schedule(new CloseTask(), 30000); // 60秒后执行关闭
@@ -56,9 +53,8 @@ public class ProcessStatus {
                         PlayMusic.getPlayMusicProcess().destroy();
                     }
                     // 删除消息
-                    if (PlayMusic.getBotMessage1() != null) {
-                        PlayMusic.getBotMessage1().delete();
-                        PlayMusic.getBotMessage2().delete();
+                    if (PlayMusic.getBotMessage() != null) {
+                        PlayMusic.getBotMessage().delete();
                     }
                     // 清空所有
                     // 标题
@@ -85,17 +81,14 @@ public class ProcessStatus {
                 PlayMusic.getPlayMusicProcess().destroy();
             }
             // 删除消息
-            if (PlayMusic.getBotMessage1() != null) {
-                PlayMusic.getBotMessage1().delete();
-                PlayMusic.getBotMessage2().delete();
+            if (PlayMusic.getBotMessage() != null) {
+                PlayMusic.getBotMessage().delete();
             }
             // 清空所有
             // 标题
             Main.getMusicTitleList().clear();
             // 封面
             Main.getMusicPicList().clear();
-            // 歌曲链接
-            // Main.getMusicUrlList().clear();
             System.out.println("感谢你的使用，为了保证不占用资源，已自动退出频道");
             timer.cancel();
         }

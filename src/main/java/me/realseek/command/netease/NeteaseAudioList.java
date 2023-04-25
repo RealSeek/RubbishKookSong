@@ -44,12 +44,11 @@ public class NeteaseAudioList implements UserCommandExecutor {
                         // 删除”已添加“
                         DelMsg.delMsg(message);
                         // 更新卡片
-                        PlayMusic.getBotMessage1().delete();
-                        PlayMusic.getBotMessage2().delete();
-                        PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                        PlayMusic.setMsgMuiscList(Main.getMessage().sendToSource(Card.playList()));
-                        PlayMusic.setBotMessage1(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
-                        PlayMusic.setBotMessage2(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMuiscList()));
+                        if (Main.getPlayStatus()) {
+                            PlayMusic.getBotMessage().delete();
+                            PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
+                            PlayMusic.setBotMessage(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
+                        }
                         // 设置状态
                         PlayMusic.setFist(false);
                     } else {

@@ -18,21 +18,21 @@ public class LeaveChannelCommand implements UserCommandExecutor {
             // 判断发送者ID和配置文件的管理员ID是否相等
             if (sender.getId().equals(str)) {
                 if (JoinVoice.getWebSocket() != null) {
+                    // 断开语音
                     JoinVoice.disconnect();
+                    // 关闭检测
                     Main.getProcessStatus().close();
-                    String msgl1 = message.reply("已断开语音频道");
-                    TextChannelMessage msg1 = PlayMusic.getBotMessage1();
-                    TextChannelMessage msg2 = PlayMusic.getBotMessage2();
-                    TextChannelMessage msg3 = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgl1);
+                    // 拿消息
+                    String msgl = message.reply("已断开语音频道");
+                    TextChannelMessage msg = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgl);
                     // 关闭进程
                     if (FFmpeg.getZMQ().isAlive()) {
                         FFmpeg.getZMQ().destroy();
                         PlayMusic.getPlayMusicProcess().destroy();
                     }
                     // 删除消息
-                    if (msg1 != null) {
-                        msg1.delete();
-                        msg2.delete();
+                    if (PlayMusic.getBotMessage() != null) {
+                        PlayMusic.getBotMessage().delete();
                     }
                     // 清空所有
                     // 标题
@@ -43,7 +43,7 @@ public class LeaveChannelCommand implements UserCommandExecutor {
                     if (!Main.getMusicIdList().isEmpty()) {
                         Main.getMusicIdList().remove(0);
                     }
-                    msg3.delete();
+                    msg.delete();
                     message.delete();
                 } else {
                     message.reply("我当前并不在语音频道内");

@@ -15,7 +15,6 @@ public class DelMsg {
             }
             // 删除 bot 回复
             for (String uuid : Main.getMsgList()){
-                // botMessageInPlay = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(uuid);
                 Main.setBotMessageInPlay(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(uuid));
                 Main.getBotMessageInPlay().delete();
             };

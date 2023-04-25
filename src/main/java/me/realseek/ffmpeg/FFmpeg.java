@@ -39,7 +39,4 @@ public class FFmpeg implements Runnable{
         return ZMQ;
     }
 
-    public static void setZMQ(Process ZMQ) {
-        FFmpeg.ZMQ = ZMQ;
-    }
 }

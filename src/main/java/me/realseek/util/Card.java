@@ -3,10 +3,7 @@ package me.realseek.util;
 import me.realseek.Main;
 import snw.jkook.HttpAPI;
 import snw.jkook.entity.abilities.Accessory;
-import snw.jkook.message.component.card.CardBuilder;
-import snw.jkook.message.component.card.MultipleCardComponent;
-import snw.jkook.message.component.card.Size;
-import snw.jkook.message.component.card.Theme;
+import snw.jkook.message.component.card.*;
 import snw.jkook.message.component.card.element.ButtonElement;
 import snw.jkook.message.component.card.element.ImageElement;
 import snw.jkook.message.component.card.element.MarkdownElement;
@@ -22,6 +19,7 @@ public class Card {
     // 构建播放卡片消息
     public static MultipleCardComponent playCard() {
         CardBuilder cardBuilder = new CardBuilder();
+
         cardBuilder.setTheme(Theme.INFO).setSize(Size.LG);
 
         cardBuilder.addModule(new SectionModule(
@@ -52,11 +50,10 @@ public class Card {
                         )
                 )
         );
-        return cardBuilder.build();
-    }
 
-    // 构建播放队列卡片消息
-    public static MultipleCardComponent playList() {
+        // 再 new 一个卡片
+        cardBuilder.newCard().setTheme(Theme.INFO).setSize(Size.LG);
+
         int musicNumber = 0;
         String musicList = "";
         for (String element : Main.getMusicTitleList()) {
@@ -68,8 +65,6 @@ public class Card {
                 break;
             }
         }
-        CardBuilder cardBuilder = new CardBuilder();
-        cardBuilder.setTheme(Theme.INFO).setSize(Size.LG);
 
         cardBuilder.addModule(new SectionModule(
                 new MarkdownElement("**播放队列：**\n---"),null,Accessory.Mode.RIGHT
@@ -110,13 +105,8 @@ public class Card {
                 new MarkdownElement("---"),null,Accessory.Mode.RIGHT
         ));
 
-        return cardBuilder.build();
-    }
-
-    // 构建播放队列卡片消息
-    public static MultipleCardComponent noPlayList() {
-        CardBuilder cardBuilder = new CardBuilder();
-        cardBuilder.setTheme(Theme.INFO).setSize(Size.LG);
+        // 再 new 一个卡片
+        cardBuilder.newCard().setTheme(Theme.INFO).setSize(Size.LG);
 
         cardBuilder.addModule(new SectionModule(
                 new MarkdownElement("**播放队列：**\n---"),null,Accessory.Mode.RIGHT
@@ -137,7 +127,7 @@ public class Card {
         return cardBuilder.build();
     }
 
-    // 帮助卡片消息
+    // 帮助文本卡片消息（已弃用）
     public static MultipleCardComponent helpCard(){
         CardBuilder cardBuilder = new CardBuilder();
         cardBuilder.setTheme(Theme.INFO).setSize(Size.LG);

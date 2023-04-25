@@ -12,6 +12,13 @@ import snw.jkook.util.PageIterator;
 import java.util.Collection;
 
 public class InChannel {
+    /**
+     * 判断 sender 是否在语音内
+     * @param sender
+     * @param arguments
+     * @param message
+     * @return
+     */
     public static Boolean inChannel(User sender, Object[] arguments, Message message){
         String VoidChannel = null;
         // 获取服务器的 guild

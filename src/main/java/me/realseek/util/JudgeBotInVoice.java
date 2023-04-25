@@ -45,7 +45,7 @@ public class JudgeBotInVoice {
                 }
             }
         }else {
-            // 若Bot未在任何语音
+            // 若Bot未在你发消息的服务器内的语音频道
             temp = false;
         }
         return temp;

@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MessageUtil {
-    Bilibili bilibili = new Bilibili();
     public static String getFullMessage(User sender, Object[] arguments, Message message){
         String str = "";
         if (arguments.length == 0) {
