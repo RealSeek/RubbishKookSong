@@ -20,6 +20,8 @@
     <a href="https://nodejs.org/">
         <img src="https://img.shields.io/badge/NodeJS-12%2B-blue" alt=""/>
     </a>
+    <a href="https://www.codefactor.io/repository/github/realseek/jkookexample"><img src="https://www.codefactor.io/repository/github/realseek/jkookexample/badge" alt="CodeFactor" />
+    </a>
 </p>
 
 ## 使用说明
