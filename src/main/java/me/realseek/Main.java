@@ -107,7 +107,6 @@ public class Main extends BasePlugin {
         if (!ffmpegFile.isFile()){
             System.out.println("未检测到ffmpeg，已为你重新加载");
             saveResource("ffmpeg.exe", false, false);
-            saveDefaultConfig();
         }
 
         if (!configFile.isFile()){
@@ -118,7 +117,6 @@ public class Main extends BasePlugin {
         if (!menuFile.isFile()){
             System.out.println("未检测到菜单，已为你重新加载");
             saveResource("menu.jpg", false, false);
-            saveDefaultConfig();
         }
 
         getLogger().info("初始化结束！");
@@ -142,6 +140,9 @@ public class Main extends BasePlugin {
                 "\\_| \\_\\__,_|_.__/|_.__/|_|___/_| |_\\_| \\_/\\___/ \\___/|_|\\_\\____/ \\___/|_| |_|\\__, |\n" +
                 "                                                                              __/ |\n" +
                 "                                                                             |___/ \n");
+        getLogger().info("========================\n" +
+                "\t已启动 Ver 1.0.0\n" +
+                "========================");
         // 注册指令
         registerCommands();
         // 监听器
