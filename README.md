@@ -97,6 +97,9 @@ BotAdmin: ["2038278961", "管理员ID"]
 
 项目默认qq号 1234567，可以通过修改 bin/config.js 或设置启动参数 QQ=7654321 npm start
 
+>set QQ=7654321
+>npm start
+
 如果使用的是微信号，则将 bin/config.js 中的 qq好改为 wxuin，具体数值可以在网页版qq音乐的 cookie 中获取
 
 ## 指令说明
