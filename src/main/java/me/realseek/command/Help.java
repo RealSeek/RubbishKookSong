@@ -1,7 +1,6 @@
 package me.realseek.command;
 
 import me.realseek.Main;
-import me.realseek.util.Card;
 import org.jetbrains.annotations.Nullable;
 import snw.jkook.command.UserCommandExecutor;
 import snw.jkook.entity.User;

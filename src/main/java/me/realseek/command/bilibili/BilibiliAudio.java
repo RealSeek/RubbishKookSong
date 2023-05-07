@@ -46,10 +46,14 @@ public class BilibiliAudio implements UserCommandExecutor {
                         // 删除”已添加“
                         DelMsg.delMsg(message);
                         // 更新卡片
+                        // 判断播放状态
                         if (Main.getPlayStatus()) {
+                            // 删除旧的消息
                             PlayMusic.getBotMessage().delete();
-                            PlayMusic.setMsgMusicNow(Main.getMessage().sendToSource(Card.playCard()));
-                            PlayMusic.setBotMessage(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicNow()));
+                            // 发送新的消息卡片 并且拿消息 uuid
+                            PlayMusic.setMsgMusicUUID(Main.getMessage().sendToSource(Card.playCard()));
+                            // 通过 uuid 拿到消息对象
+                            PlayMusic.setBotMessage(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicUUID()));
                         }
                         // 设置状态
                         PlayMusic.setFist(false);
@@ -61,11 +65,8 @@ public class BilibiliAudio implements UserCommandExecutor {
                         // 添加播放列表
                         Main.getMusicTitleList().add("B站：" + bilibili.getTitle());
                         Main.getMusicPicList().add(bilibili.getPic());
-                        // 设置UUID
-                        Main.setMsgMuiscNoPlay(message.reply("已添加"));
-                        Main.setBotMessageNoPlay(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(Main.getMsgMuiscNoPlay()));
-                        // 删除消息
-                        message.delete();
+                        // 删除 sender 消息和 "已添加"
+                        DelMsg.delMsg(message);
                         // 点歌
                         PlayMusic.setFist(true);
                         // 开启计时器 进入计时器内播放

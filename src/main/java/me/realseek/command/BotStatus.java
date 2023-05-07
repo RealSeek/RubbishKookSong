@@ -1,6 +1,5 @@
 package me.realseek.command;
 
-import me.realseek.util.JudgeBotInVoice;
 import me.realseek.voice.JoinVoice;
 import org.jetbrains.annotations.Nullable;
 import snw.jkook.command.UserCommandExecutor;

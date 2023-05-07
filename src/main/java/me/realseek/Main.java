@@ -2,11 +2,11 @@ package me.realseek;
 
 import me.realseek.command.BotStatus;
 import me.realseek.command.Help;
+import me.realseek.command.LeaveChannelCommand;
 import me.realseek.command.bilibili.BilibiliAudio;
 import me.realseek.command.netease.NeteaseAudio;
 import me.realseek.command.netease.NeteaseAudioList;
 import me.realseek.command.netease.NeteaseLogin;
-import me.realseek.command.LeaveChannelCommand;
 import me.realseek.command.qqmuisc.QQMusicAudio;
 import me.realseek.command.qqmuisc.QQMusicCookie;
 import me.realseek.ffmpeg.PlayMusic;
@@ -19,7 +19,6 @@ import snw.jkook.JKook;
 import snw.jkook.command.JKookCommand;
 import snw.jkook.event.Listener;
 import snw.jkook.message.Message;
-import snw.jkook.message.TextChannelMessage;
 import snw.jkook.plugin.BasePlugin;
 
 import java.io.File;
@@ -39,16 +38,22 @@ public class Main extends BasePlugin {
     private static String menuPath;
     private static String token;
     static PlayMusic playMusic = new PlayMusic();
+
     // 网易云对象
     static Netease netease = new Netease();
+
     // QQ音乐对象
     static QQMusic qqMusic = new QQMusic();
+
     // Bilibili对象
     static Bilibili bilibili = new Bilibili();
+
     // 用于构建消息
     static Message message;
+
     // 判断播放状态
     static Boolean playStatus;
+
     // 存储歌曲ID
     static LinkedList<Integer> musicIdList = new LinkedList<Integer>();
 
@@ -57,16 +62,13 @@ public class Main extends BasePlugin {
 
     // 存储音乐封面
     static LinkedList<String> musicPicList = new LinkedList<String>();
-    // Bot第一次点歌的已添加消息UUID
-    static String msgMuiscNoPlay;
-    // Bot处于未点歌的消息
-    static TextChannelMessage botMessageNoPlay;
-    // Bot处于播放状态下的消息
-    static TextChannelMessage botMessageInPlay;
+
     // Bot正在放歌的已添加消息uuid
-    static String msgMuiscInPlay;
+    static String botMessageUUID;
+
     // 用于存储消息列表
     static List<String> msgList = new ArrayList<>();
+
     // 进程计时器
     static ProcessStatus processStatus;
 
@@ -152,6 +154,7 @@ public class Main extends BasePlugin {
 
     @Override
     public void onDisable() {
+        System.out.println("点歌插件已卸载");
         super.onDisable();
     }
 
@@ -290,47 +293,23 @@ public class Main extends BasePlugin {
         Main.message = message;
     }
 
-    public static TextChannelMessage getBotMessageNoPlay() {
-        return botMessageNoPlay;
-    }
-
-    public static void setBotMessageNoPlay(TextChannelMessage botMessageNoPlay) {
-        Main.botMessageNoPlay = botMessageNoPlay;
-    }
-
-
     public static PlayMusic getPlayMusic() {
         return playMusic;
     }
 
     /**
-     * 获取未播放时回复你的”已添加“的消息的UUID
-     * @return
-     */
-    public static String getMsgMuiscNoPlay() {
-        return msgMuiscNoPlay;
-    }
-
-    /**
-     * 设置未播放时回复你的”已添加“的消息的UUID
-     * @param msgMuiscNoPlay
-     */
-    public static void setMsgMuiscNoPlay(String msgMuiscNoPlay) {
-        Main.msgMuiscNoPlay = msgMuiscNoPlay;
-    }
-    /**
      * 获取正在播放时回复你的”已添加“的消息的UUID
      * @return
      */
-    public static String getMsgMuiscInPlay() {
-        return msgMuiscInPlay;
+    public static String getBotMessageUUID() {
+        return botMessageUUID;
     }
     /**
      * 设置正在播放时回复你的”已添加“的消息的UUID
-     * @param msgMuiscInPlay
+     * @param botMessageUUID
      */
-    public static void setMsgMuiscInPlay(String msgMuiscInPlay) {
-        Main.msgMuiscInPlay = msgMuiscInPlay;
+    public static void setBotMessageUUID(String botMessageUUID) {
+        Main.botMessageUUID = botMessageUUID;
     }
 
     /**
@@ -339,22 +318,6 @@ public class Main extends BasePlugin {
      */
     public static List<String> getMsgList() {
         return msgList;
-    }
-
-    /**
-     * 获取Bot正在播放的消息
-     * @return
-     */
-    public static TextChannelMessage getBotMessageInPlay() {
-        return botMessageInPlay;
-    }
-
-    /**
-     * 设置Bot正在播放的消息
-     * @param botMessageInPlay
-     */
-    public static void setBotMessageInPlay(TextChannelMessage botMessageInPlay) {
-        Main.botMessageInPlay = botMessageInPlay;
     }
 
     /**

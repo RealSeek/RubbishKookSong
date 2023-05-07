@@ -21,8 +21,10 @@ public class CheckQRStatus {
                 int status = NeteaseMethod.CheckQRStatus();
                 if (status == 803){
                     // 登录成功则取消检测
+                    // 删除二维码信息
                     loginMsg.delete();
                     System.out.println("登录成功");
+                    // 关闭计时器
                     timer.cancel();
                 }
             }
@@ -31,7 +33,9 @@ public class CheckQRStatus {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                // 删除二维码
                 loginMsg.delete();
+                // 关闭计时器
                 timer.cancel();
             }
         }, 60000);

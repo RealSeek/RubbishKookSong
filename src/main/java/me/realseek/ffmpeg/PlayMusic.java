@@ -20,7 +20,7 @@ public class PlayMusic{
     static boolean del;
 
     // 消息UUID
-    static String msgMusicNow;
+    static String msgMusicUUID;
 
     static String music;
 
@@ -30,10 +30,6 @@ public class PlayMusic{
     public void playMusic() throws IOException, InterruptedException {
         del = false;
         if (fist){
-            // 如果是第一次进入这个方法
-            // 删除信息后发送
-            TextChannelMessage msg = Main.getBotMessageNoPlay();
-            msg.delete();
             // 原发送卡片
             fist = false;
         }else {
@@ -51,8 +47,10 @@ public class PlayMusic{
         // 启动
         playMusicProcess = pb.start();
         // 发送卡片
-        msgMusicNow = Main.getMessage().sendToSource(Card.playCard());
-        botMessage = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMusicNow);
+        msgMusicUUID = Main.getMessage().sendToSource(Card.playCard());
+        botMessage = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMusicUUID);
+        // 设置播放状态为开启
+        Main.setPlayStatus(true);
         // 等待播放线程完毕
         playMusicProcess.waitFor();
         // 如果点击了下一首按钮
@@ -92,12 +90,12 @@ public class PlayMusic{
         PlayMusic.fist = fist;
     }
 
-    public static void setMsgMusicNow(String msgMusicNow) {
-        PlayMusic.msgMusicNow = msgMusicNow;
+    public static void setMsgMusicUUID(String msgMusicUUID) {
+        PlayMusic.msgMusicUUID = msgMusicUUID;
     }
 
-    public static String getMsgMusicNow() {
-        return msgMusicNow;
+    public static String getMsgMusicUUID() {
+        return msgMusicUUID;
     }
 
     public static void setBotMessage(TextChannelMessage botMessage) {

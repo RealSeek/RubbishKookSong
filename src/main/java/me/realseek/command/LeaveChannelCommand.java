@@ -3,6 +3,7 @@ package me.realseek.command;
 import me.realseek.Main;
 import me.realseek.ffmpeg.FFmpeg;
 import me.realseek.ffmpeg.PlayMusic;
+import me.realseek.util.StopAll;
 import me.realseek.voice.JoinVoice;
 import org.jetbrains.annotations.Nullable;
 import snw.jkook.command.UserCommandExecutor;
@@ -18,33 +19,12 @@ public class LeaveChannelCommand implements UserCommandExecutor {
             // 判断发送者ID和配置文件的管理员ID是否相等
             if (sender.getId().equals(str)) {
                 if (JoinVoice.getWebSocket() != null) {
-                    // 断开语音
-                    JoinVoice.disconnect();
-                    // 关闭检测
-                    Main.getProcessStatus().close();
                     // 拿消息
-                    String msgl = message.reply("已断开语音频道");
-                    TextChannelMessage msg = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgl);
-                    // 关闭进程
-                    if (FFmpeg.getZMQ().isAlive()) {
-                        FFmpeg.getZMQ().destroy();
-                        PlayMusic.getPlayMusicProcess().destroy();
-                    }
-                    // 删除消息
-                    if (PlayMusic.getBotMessage() != null) {
-                        PlayMusic.getBotMessage().delete();
-                    }
-                    // 清空所有
-                    // 标题
-                    Main.getMusicTitleList().clear();
-                    // 封面
-                    Main.getMusicPicList().clear();
-                    // 歌曲ID
-                    if (!Main.getMusicIdList().isEmpty()) {
-                        Main.getMusicIdList().remove(0);
-                    }
+                    TextChannelMessage msg = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(message.reply("已断开语音频道"));
                     msg.delete();
                     message.delete();
+                    // 关闭所有
+                    StopAll.over();
                 } else {
                     message.reply("我当前并不在语音频道内");
                 }
