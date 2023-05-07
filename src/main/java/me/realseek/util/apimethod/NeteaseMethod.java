@@ -1,5 +1,6 @@
 package me.realseek.util.apimethod;
 
+import cn.hutool.core.net.url.UrlBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -7,11 +8,12 @@ import com.google.gson.JsonParser;
 import me.realseek.Main;
 import me.realseek.api.NeteaseAPI;
 import me.realseek.pojo.Netease;
-import me.realseek.util.TimeStamp;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import static me.realseek.util.Config.getNeteaseAPIURL;
 
 public class NeteaseMethod {
     static String qrKey;
@@ -29,7 +31,12 @@ public class NeteaseMethod {
         try (Response request = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/login/qr/key")
+                        //.url("http://localhost:3000/login/qr/key")
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("login")
+                                .addPath("qr")
+                                .addPath("key")
+                                .toString())
                         .build()
         ).execute()) {
             // 获取key
@@ -52,7 +59,13 @@ public class NeteaseMethod {
         try (Response request = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/login/qr/create?key=" + qrKey)
+                        //.url("http://localhost:3000/login/qr/create?key=" + qrKey)
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("login")
+                                .addPath("qr")
+                                .addPath("create")
+                                .addQuery("key",qrKey)
+                                .toString())
                         .build()
         ).execute()) {
             // 获取二维码
@@ -72,7 +85,14 @@ public class NeteaseMethod {
         try (Response request = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/login/qr/check?key=" + netease.getUnikey() + TimeStamp.spawnTimeStamp())
+                        //.url("http://localhost:3000/login/qr/check?key=" + netease.getUnikey() + TimeStamp.spawnTimeStamp())
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("login")
+                                .addPath("qr")
+                                .addPath("check")
+                                .addQuery("key",netease.getUnikey())
+                                .addQuery("timestamp",System.currentTimeMillis())
+                                .toString())
                         .build()
         ).execute()) {
             // 获取扫码状态
@@ -113,7 +133,12 @@ public class NeteaseMethod {
         try (Response response = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/cloudsearch?keywords=" + musicName + "&limit=1")
+                        //.url("http://localhost:3000/cloudsearch?keywords=" + musicName + "&limit=1")
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("cloudsearch")
+                                .addQuery("keywords",musicName)
+                                .addQuery("limit",1)
+                                .toString())
                         .build()
         ).execute()) {
             JsonObject jsonObject = JsonParser.parseString(response.body().string()).getAsJsonObject();
@@ -138,7 +163,13 @@ public class NeteaseMethod {
         try (Response response = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/song/detail?ids=" + musicId + TimeStamp.spawnTimeStamp())
+                        //.url("http://localhost:3000/song/detail?ids=" + musicId + TimeStamp.spawnTimeStamp())
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("song")
+                                .addPath("detail")
+                                .addQuery("ids",musicId)
+                                .addQuery("timestamp",System.currentTimeMillis())
+                                .toString())
                         .build()
         ).execute()) {
             // 处理音乐返回的详细信息
@@ -174,7 +205,15 @@ public class NeteaseMethod {
         try (Response response = client.newCall(
                 new Request.Builder()
                         .post(body)
-                        .url("http://localhost:3000/song/download/url?id=" + musicId + "&br=320000" + TimeStamp.spawnTimeStamp())
+                        //.url("http://localhost:3000/song/download/url?id=" + musicId + "&br=320000" + TimeStamp.spawnTimeStamp())
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("song")
+                                .addPath("download")
+                                .addPath("url")
+                                .addQuery("id",musicId)
+                                .addQuery("br",320000)
+                                .addQuery("timestamp",System.currentTimeMillis())
+                                .toString())
                         .build()
         ).execute()) {
             // debug 用日志 这 url 返回歌曲下载 url
@@ -206,7 +245,14 @@ public class NeteaseMethod {
         try (Response response = client.newCall(
                 new Request.Builder()
                         .post(body)
-                        .url("http://localhost:3000/song/url/v1?id=" + musicId + "&level=exhigh")
+                        //.url("http://localhost:3000/song/url/v1?id=" + musicId + "&level=exhigh")
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("song")
+                                .addPath("url")
+                                .addPath("v1")
+                                .addQuery("id",musicId)
+                                .addQuery("level","exhigh")
+                                .toString())
                         .build()
         ).execute()) {
             // debug 用日志 这 url 返回歌曲下载 url
@@ -234,7 +280,13 @@ public class NeteaseMethod {
         try (Response response = client.newCall(
                 new Request.Builder()
                         .post(RequestBody.create("", null))
-                        .url("http://localhost:3000/playlist/track/all?id=" + musicListId)
+                        //.url("http://localhost:3000/playlist/track/all?id=" + musicListId)
+                        .url(UrlBuilder.of(getNeteaseAPIURL())
+                                .addPath("playlist")
+                                .addPath("track")
+                                .addPath("all")
+                                .addQuery("id",musicListId)
+                                .toString())
                         .build()
         ).execute()) {
             // 处理音乐返回的详细信息
