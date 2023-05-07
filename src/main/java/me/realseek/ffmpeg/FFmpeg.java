@@ -1,6 +1,7 @@
 package me.realseek.ffmpeg;
 
 import me.realseek.Main;
+import me.realseek.util.JNAMethod;
 import me.realseek.voice.SimpleWebSocketListener;
 
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class FFmpeg implements Runnable{
         pb1.redirectErrorStream(true);
         try {
             ZMQ = pb1.start();
+            // 将 ZMQ 的 PID 储存到 config 内，用于出现意外在插件第二次启动时关闭上一次未关闭的进程
+            // Main.getInstance().getConfig().set("ZMQPID", JNAMethod.getProcessID(ZMQ));
             System.out.println("ZMQ服务已启动！");
         } catch (IOException e) {
             throw new RuntimeException(e);

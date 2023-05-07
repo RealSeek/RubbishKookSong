@@ -4,6 +4,7 @@ import me.realseek.Main;
 import me.realseek.timer.ProcessStatus;
 import me.realseek.util.Card;
 import me.realseek.util.DownloadMp3;
+import me.realseek.util.JNAMethod;
 import me.realseek.voice.SimpleWebSocketListener;
 import snw.jkook.message.TextChannelMessage;
 
@@ -41,11 +42,13 @@ public class PlayMusic{
         // 构建推流命令
         String playMusic = String.format
                 ("%s -re -nostats -i \"%s\" -acodec libopus -ab 128k -f mpegts zmq:tcp://127.0.0.1:" + SimpleWebSocketListener.getFFmpegPort()
-                        , Main.getFFmpegPath(), Main.getResPath() + "\\radio.mp3");
+                        , Main.getFFmpegPath(), Main.getMp3Path());
         ProcessBuilder pb = new ProcessBuilder(playMusic.split(" "));
         pb.redirectErrorStream(true);
         // 启动
         playMusicProcess = pb.start();
+        // 将播放音乐的 PID 储存到 config 内，用于出现意外在插件第二次启动时关闭上一次未关闭的进程
+        // Main.getInstance().getConfig().set("MusicPID", JNAMethod.getProcessID(playMusicProcess));
         // 发送卡片
         msgMusicUUID = Main.getMessage().sendToSource(Card.playCard());
         botMessage = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(msgMusicUUID);

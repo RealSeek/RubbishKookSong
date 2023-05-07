@@ -36,6 +36,7 @@ public class Main extends BasePlugin {
     private static String ffmpegPath;
     private static String resPath;
     private static String menuPath;
+    private static String mp3Path;
     private static String token;
     static PlayMusic playMusic = new PlayMusic();
 
@@ -79,12 +80,14 @@ public class Main extends BasePlugin {
         // 配置路径
         File res = new File(getDataFolder().getPath());
         File configFile = new File(getDataFolder().getPath() + "\\config.yml");
-        File ffmpegFile = new File(getDataFolder().getPath() + "\\ffmpeg.exe");
         File menuFile = new File(getDataFolder().getPath() + "\\menu.jpg");
+        File ffmpegFile = new File(getDataFolder().getPath() + "\\ffmpeg.exe");
+        File musicFile = new File(getDataFolder().getPath() + "\\radio.mp3");
         resPath = res.getAbsolutePath();
         configPath = configFile.getAbsolutePath();
-        ffmpegPath = ffmpegFile.getAbsolutePath();
         menuPath = menuFile.getAbsolutePath();
+        mp3Path = musicFile.getAbsolutePath();
+        ffmpegPath = ffmpegFile.getAbsolutePath();
 
         // 获取token
         File kbc = new File("kbc.yml");
@@ -106,7 +109,7 @@ public class Main extends BasePlugin {
         }
 
         // 保存资源到 config
-        if (!ffmpegFile.isFile()){
+        if (!ffmpegFile.isFile()) {
             System.out.println("未检测到ffmpeg，已为你重新加载");
             saveResource("ffmpeg.exe", false, false);
         }
@@ -247,6 +250,13 @@ public class Main extends BasePlugin {
 
     public static String getFFmpegPath() {
         return ffmpegPath;
+    }
+
+    /**
+     * 获取 radio.mp3 的路径
+     */
+    public static String getMp3Path(){
+        return mp3Path;
     }
 
     /**
