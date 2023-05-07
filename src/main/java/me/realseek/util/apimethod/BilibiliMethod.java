@@ -1,10 +1,10 @@
 package me.realseek.util.apimethod;
 
+import cn.hutool.core.net.url.UrlBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.realseek.Main;
 import me.realseek.pojo.Bilibili;
-import me.realseek.pojo.Netease;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 
 public class BilibiliMethod {
     static Bilibili bilibili = Main.getBilibili();
+
+    final static String bilibiliAPIURL = "https://api.bilibili.com";
 
     static OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
@@ -56,7 +58,13 @@ public class BilibiliMethod {
         try (Response request = client.newCall(
                 new Request.Builder()
                         .get()
-                        .url("https://api.bilibili.com/x/web-interface/view?bvid=" + BVId)
+                        //.url("https://api.bilibili.com/x/web-interface/view?bvid=" + BVId)
+                        .url(UrlBuilder.of(bilibiliAPIURL)
+                                .addPath("x")
+                                .addPath("web-interface")
+                                .addPath("view")
+                                .addQuery("bvid",BVId)
+                                .toString())
                         .build()
         ).execute()) {
             JsonObject jsonObject = JsonParser.parseString(request.body().string()).getAsJsonObject();
@@ -81,7 +89,15 @@ public class BilibiliMethod {
         try (Response request = client.newCall(
                 new Request.Builder()
                         .get()
-                        .url("https://api.bilibili.com/x/player/playurl?fnval=16&bvid=" + BVId + "&cid=" + bilibili.getCid())
+                        //.url("https://api.bilibili.com/x/player/playurl?fnval=16&bvid=" + BVId + "&cid=" + bilibili.getCid())
+                        .url(UrlBuilder.of(bilibiliAPIURL)
+                                .addPath("x")
+                                .addPath("player")
+                                .addPath("playurl")
+                                .addQuery("fnval",16)
+                                .addQuery("bvid",BVId)
+                                .addQuery("cid",bilibili.getCid())
+                                .toString())
                         .build()
         ).execute()) {
             JsonObject jsonObject = JsonParser.parseString(request.body().string()).getAsJsonObject();

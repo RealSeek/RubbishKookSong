@@ -24,7 +24,7 @@ public class NeteaseAudio implements UserCommandExecutor {
                 // 获取处理后的点歌参数
                 String parameters = MessageUtil.getFullMessage(sender, arguments, message);
                 // 获取歌曲ID (处理了一下&避免作为参数分隔符)
-                int musicId = NeteaseAPI.neteaseMusicId(parameters.replace("&", "%26"));
+                int musicId = NeteaseAPI.neteaseMusicId(parameters);
                 // 获取歌曲信息
                 NeteaseAPI.neteaseMusicInfo(musicId);
                 // 获取歌曲下载链接

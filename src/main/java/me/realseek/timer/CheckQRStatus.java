@@ -1,19 +1,10 @@
 package me.realseek.timer;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import me.realseek.Main;
 import me.realseek.command.netease.NeteaseLogin;
-import me.realseek.pojo.Netease;
-import me.realseek.util.TimeStamp;
 import me.realseek.util.apimethod.NeteaseMethod;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import snw.jkook.message.TextChannelMessage;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 

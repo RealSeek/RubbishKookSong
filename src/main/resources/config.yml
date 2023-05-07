@@ -1,4 +1,12 @@
-﻿# 网易云api扫码登录返回的cookie
+﻿#网易云api的地址
+#默认为 http://localhost:3000
+Netease_API_URL: "http://localhost:3000"
+
+#QQ音乐api的地址
+#默认为 http://localhost:3300
+QQMusic_API_URL: "http://localhost:3300"
+
+# 网易云api扫码登录返回的cookie
 Netease_Url_Cookie: ""
 
 # QQ音乐api需要登录的QQ号
