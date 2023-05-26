@@ -1,5 +1,7 @@
 package me.realseek.pojo;
 
+import snw.jkook.entity.User;
+
 public class Netease {
     /**
      * 二维码的key
@@ -28,6 +30,11 @@ public class Netease {
      * 音乐封面 url
      */
     private String musicPicUrl;
+
+    /**
+     * 点歌的用户
+     */
+    private User sender;
 
     // Getter and Setter
 
@@ -79,4 +86,11 @@ public class Netease {
         this.musicPicUrl = musicPicUrl;
     }
 
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
 }

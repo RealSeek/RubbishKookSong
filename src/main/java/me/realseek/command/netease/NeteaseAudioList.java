@@ -2,7 +2,6 @@ package me.realseek.command.netease;
 
 import me.realseek.Main;
 import me.realseek.ffmpeg.PlayMusic;
-import me.realseek.pojo.Netease;
 import me.realseek.timer.ProcessStatus;
 import me.realseek.util.*;
 import me.realseek.util.apimethod.NeteaseMethod;
@@ -16,8 +15,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NeteaseAudioList implements UserCommandExecutor {
-    static Netease netease = Main.getNetease();
-
     @Override
     public void onCommand(User sender, Object[] arguments, @Nullable Message message) {
         try {
@@ -30,19 +27,23 @@ public class NeteaseAudioList implements UserCommandExecutor {
                 String parameters = MessageUtil.getFullMessage(sender, arguments, message);
                 Pattern playList = Pattern.compile("playlist\\?id=(\\d+)");
                 Matcher playListId = playList.matcher(parameters);
+                // 删除 sender 消息和 "已添加"
+                // DelMsg.delMsg(message);
+
                 // 如果找到歌单ID
                 if (playListId.find()) {
                     String playlistId = playListId.group(1);
                     TextChannelMessage rp = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(message.reply("正在检索歌单内的歌曲请稍等"));
                     // 遍历歌单歌曲并添加到播放内
-                    NeteaseMethod.getMusicListInfo(playlistId);
+                    // 歌单逻辑在方法内处理
+                    NeteaseMethod.getMusicListInfo(playlistId, sender);
                     // 删除
                     rp.delete();
                     // 判断 Bot 状态
                     if (JudgeBotInVoice.status(sender, arguments, message)) {
                         // Bot在语音内
-                        // 删除”已添加“
-                        DelMsg.delMsg(message);
+                        // 设置状态
+                        PlayMusic.setFist(false);
                         // 更新卡片
                         if (Main.getPlayStatus()) {
                             // 删除旧的消息
@@ -52,16 +53,14 @@ public class NeteaseAudioList implements UserCommandExecutor {
                             // 通过 uuid 拿到消息对象
                             PlayMusic.setBotMessage(Main.getInstance().getCore().getUnsafe().getTextChannelMessage(PlayMusic.getMsgMusicUUID()));
                         }
-                        // 设置状态
-                        PlayMusic.setFist(false);
                     } else {
                         // Bot不在语音内
-                        // 加入语音
-                        JoinChannel.joinChannel(sender, arguments, message);
-                        // 删除 sender 消息和 "已添加"
-                        DelMsg.delMsg(message);
                         // 点歌
                         PlayMusic.setFist(true);
+                        // 删除 sender 消息和 "已添加"
+                        DelMsg.delMsg(message);
+                        // 加入语音
+                        JoinChannel.joinChannel(sender, arguments, message);
                         // 开启计时器 进入计时器内播放
                         Main.setProcessStatus(new ProcessStatus());
                         Main.getProcessStatus().start();
@@ -73,7 +72,8 @@ public class NeteaseAudioList implements UserCommandExecutor {
                 message.reply("你当前似乎不在语音频道内");
             }
         }catch (Exception e){
-            message.reply("请确保你的歌单为公开歌单（红心歌单也不支持）");
+            System.out.println("\n已将错误输出");
+            throw new RuntimeException(e);
         }
     }
 }

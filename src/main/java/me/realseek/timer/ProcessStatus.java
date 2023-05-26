@@ -17,12 +17,14 @@ public class ProcessStatus {
     }
 
     public void start() {
-        if (Main.getMusicTitleList().isEmpty()) {
+        if (Main.getMusicList().isEmpty()) {
             System.out.println("检测到列表为空，为避免不必要的麻烦，请手动输入/停止或等待机器人自动退出");
             Main.setPlayStatus(false);
             // 更新卡片
             // 删除消息
-            PlayMusic.getBotMessage().delete();
+            if (!PlayMusic.isFist()) {
+                PlayMusic.getBotMessage().delete();
+            }
             // 发送队列无播放歌曲的卡片
             PlayMusic.setMsgMusicUUID(Main.getMessage().sendToSource(Card.noPlayCard()));
             // 获取这条消息的uuid
@@ -39,11 +41,9 @@ public class ProcessStatus {
 
     class DetectionTask extends TimerTask {
         public void run() {
-            if (!Main.getMusicTitleList().isEmpty()) {
+            if (!Main.getMusicList().isEmpty()) {
                 try {
                     // 启动推流
-                    // System.out.println("检测列表内还有歌曲取消空闲计时");
-                    // Main.setPlayStatus(true);
                     Main.getPlayMusic().playMusic();
                 } catch (IOException | InterruptedException e) {
                     Main.getMessage().reply("出现致命错误，已清除所有队列");
@@ -61,7 +61,6 @@ public class ProcessStatus {
             // 关闭所有
             StopAll.over();
             System.out.println("感谢你的使用，为了保证不占用资源，已自动退出频道");
-            timer.cancel();
         }
     }
 }

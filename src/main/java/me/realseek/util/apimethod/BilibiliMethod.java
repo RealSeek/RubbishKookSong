@@ -75,6 +75,8 @@ public class BilibiliMethod {
             // 分P
             bilibili.setCid(jsonObject.getAsJsonObject("data").getAsJsonArray("pages").
                     get(bilibili.getpNum()).getAsJsonObject().get("cid").getAsInt());
+            // UP名字
+            bilibili.setUpName(jsonObject.get("data").getAsJsonObject().get("owner").getAsJsonObject().get("name").getAsString());
             // System.out.println("获取到B站视频封面，标题和cid了");
             // System.out.println("得到数据如下：\n"
             //         + bilibili.getPic() + "\n"

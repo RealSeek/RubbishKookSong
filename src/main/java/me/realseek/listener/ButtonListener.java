@@ -17,24 +17,12 @@ public class ButtonListener implements Listener {
             // 关闭推流的进程
             PlayMusic.getPlayMusicProcess().destroy();
             // 移除List的第一位
-            // 标题
-            Main.getMusicTitleList().remove(0);
-            // 封面
-            Main.getMusicPicList().remove(0);
-            // 歌曲ID
-            if (PlayMusic.getMusic().equals("网易")) {
-                Main.getMusicIdList().remove(0);
-            }
+            Main.getMusicList().remove(0);
         }
 
         if (btn.equals("stop")){
             // 清空所有
-            // 标题
-            Main.getMusicTitleList().clear();
-            // 封面
-            Main.getMusicPicList().clear();
-            // 歌曲ID
-            Main.getMusicIdList().clear();
+            Main.getMusicList().clear();
             // 关闭推流的进程
             PlayMusic.getPlayMusicProcess().destroy();
         }

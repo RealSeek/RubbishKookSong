@@ -1,5 +1,7 @@
 package me.realseek.pojo;
 
+import snw.jkook.entity.User;
+
 public class QQMusic {
     /**
      * 音乐名
@@ -19,6 +21,11 @@ public class QQMusic {
      * 歌曲ID （用于下载歌曲）
      */
     private String songmid;
+
+    /**
+     * 点歌的用户
+     */
+    private User sender;
 
     public String getName() {
         return name;
@@ -50,5 +57,13 @@ public class QQMusic {
 
     public void setSongmid(String songmid) {
         this.songmid = songmid;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 }

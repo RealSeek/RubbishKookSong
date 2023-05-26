@@ -9,6 +9,7 @@ import me.realseek.Main;
 import me.realseek.api.NeteaseAPI;
 import me.realseek.pojo.Netease;
 import okhttp3.*;
+import snw.jkook.entity.User;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -115,7 +116,8 @@ public class NeteaseMethod {
                     // 拿到 cookie 后保存
                     Main.getInstance().getConfig().set("Netease_Url_Cookie", jsonObject.get("cookie").getAsString());
                     Main.getInstance().saveConfig();
-
+                    // 重载配置文件
+                    Main.getInstance().reloadConfig();
                     System.out.println("cookie为：\n" + jsonObject.get("cookie").getAsString());
                     return 803;
                 }
@@ -149,7 +151,7 @@ public class NeteaseMethod {
                 netease.setMuiscId(songObject.get("id").getAsInt());
             }
             // 添加ID到List
-            Main.getMusicIdList().add(netease.getMuiscId());
+            // Main.getMusicIdList().add(netease.getMuiscId());
         } catch (IOException e) {
             Main.getMessage().sendToSource("未获取到相关歌曲，请确认是否输入正确");
         }
@@ -221,11 +223,11 @@ public class NeteaseMethod {
             String msg;
             JsonObject jsonObject = JsonParser.parseString(response.body().string()).getAsJsonObject();
             if (jsonObject.getAsJsonObject("data").get("url").isJsonNull()) {
-                System.out.println("V1获取失败，进入V2获取");
+                // System.out.println("V1获取失败，进入V2获取");
                 msg = getMusicDownloadV2(musicId);
                 return msg;
             } else {
-                System.out.println("V1获取成功");
+                // System.out.println("V1获取成功");
                 String url = jsonObject.getAsJsonObject("data").get("url").getAsString();
                 return url;
             }
@@ -276,7 +278,7 @@ public class NeteaseMethod {
      * 网易云歌单
      * @param musicListId
      */
-    public static void getMusicListInfo(String musicListId){
+    public static void getMusicListInfo(String musicListId, User sender){
         boolean find = true;
         try (Response response = client.newCall(
                 new Request.Builder()
@@ -297,11 +299,12 @@ public class NeteaseMethod {
             // 遍历"songs"数组中的每个对象
             for (JsonElement songElement : songsArray){
                 // 获取歌曲 id
-                netease.setMuiscId(songElement.getAsJsonObject().get("id").getAsInt());
+                Netease neteaseList = new Netease();
+                neteaseList.setMuiscId(songElement.getAsJsonObject().get("id").getAsInt());
                 // System.out.println(netease.getMuiscId());
 
                 // 获取歌曲名字
-                netease.setName(songElement.getAsJsonObject().get("name").getAsString());
+                neteaseList.setName(songElement.getAsJsonObject().get("name").getAsString());
                 // System.out.println(netease.getName());
 
                 // 获取歌曲歌手 获取ar节点
@@ -310,32 +313,25 @@ public class NeteaseMethod {
                 // 遍历ar节点
                 for (JsonElement arElement : ar) {
                     // 获取name节点的值
-                    netease.setArtName(arElement.getAsJsonObject().get("name").getAsString());
+                    neteaseList.setArtName(arElement.getAsJsonObject().get("name").getAsString());
                 }
 
                 // 获取歌曲封面
-                netease.setMusicPicUrl(songElement.getAsJsonObject().getAsJsonObject("al").get("picUrl").getAsString());
+                neteaseList.setMusicPicUrl(songElement.getAsJsonObject().getAsJsonObject("al").get("picUrl").getAsString());
                 // System.out.println(songElement.getAsJsonObject().getAsJsonObject("al").get("picUrl").getAsString() + "\n");
-                String musicDownloadUrl = NeteaseAPI.neteaseMusicDownloadUrl(netease.getMuiscId());
+                String musicDownloadUrl = NeteaseAPI.neteaseMusicDownloadUrl(neteaseList.getMuiscId());
                 if (find){
                     // 搜索状态
                     Thread.sleep(250L);
                 }
                 if (musicDownloadUrl.equals("cookie过期或无版权")){
                     find = false;
-                    System.out.println(netease.getName() + " - " + netease.getArtName() + "没有版权，已跳过");
-                    netease.setMuiscId(0);
-                    netease.setMusicPicUrl(null);
-                    netease.setArtName(null);
-                    netease.setArtName(null);
+                    System.out.println(neteaseList.getName() + " - " + neteaseList.getArtName() + "没有版权，已跳过");
                 }else {
-                    // 获取歌曲下载链接
-                    // Main.getMusicUrlList().add(musicDownloadUrl);
-                    // 添加播放列表
-                    Main.getMusicTitleList().add("网易：" + netease.getName() + " - " + netease.getArtName());
-                    Main.getMusicPicList().add(netease.getMusicPicUrl());
-                    // 添加歌曲ID
-                    Main.getMusicIdList().add(netease.getMuiscId());
+                    // 将对象存进集合
+                    // new 一个新的
+                    neteaseList.setSender(sender);
+                    Main.getMusicList().add(neteaseList);
                 }
             }
             // 结束List添加后

@@ -1,5 +1,7 @@
 package me.realseek.pojo;
 
+import snw.jkook.entity.User;
+
 public class Bilibili {
     /**
      * 视频BV号
@@ -25,6 +27,15 @@ public class Bilibili {
      * 视频音频流
      */
     private String audioUrl;
+    /**
+     * 点歌的用户
+     */
+    private User sender;
+
+    /**
+     * UP主
+     */
+    private String upName;
 
     // Getter and Setter
     public String getPic() {
@@ -73,5 +84,21 @@ public class Bilibili {
 
     public void setpNum(int pNum) {
         this.pNum = pNum;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public String getUpName() {
+        return upName;
+    }
+
+    public void setUpName(String upName) {
+        this.upName = upName;
     }
 }

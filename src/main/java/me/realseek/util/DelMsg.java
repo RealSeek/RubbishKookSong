@@ -6,15 +6,9 @@ import snw.jkook.message.Message;
 public class DelMsg {
     public static void delMsg(Message message){
         Main.setBotMessageUUID(message.reply("已添加"));
-        Main.getMsgList().add(Main.getBotMessageUUID());
-        Thread delMsg = new Thread(() -> {
-            // 删除 bot 回复
-            for (String uuid : Main.getMsgList()){
-                Main.getInstance().getCore().getUnsafe().getTextChannelMessage(uuid).delete();
-            };
-            // 删除用户消息
-            message.delete();
-        });
-        delMsg.start();
+        // 删除 bot 回复
+        Main.getInstance().getCore().getUnsafe().getTextChannelMessage(Main.getBotMessageUUID()).delete();
+        // 删除用户消息
+        message.delete();
     }
 }

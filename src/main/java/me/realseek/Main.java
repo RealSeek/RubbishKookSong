@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 public class Main extends BasePlugin {
     private static Main instance;
-    private static String configPath;
     private static String ffmpegPath;
     private static String resPath;
     private static String menuPath;
@@ -55,23 +54,14 @@ public class Main extends BasePlugin {
     // 判断播放状态
     static Boolean playStatus;
 
-    // 存储歌曲ID
-    static LinkedList<Integer> musicIdList = new LinkedList<Integer>();
-
-    // 存储音乐标题
-    static LinkedList<String> musicTitleList = new LinkedList<String>();
-
-    // 存储音乐封面
-    static LinkedList<String> musicPicList = new LinkedList<String>();
-
     // Bot正在放歌的已添加消息uuid
     static String botMessageUUID;
 
-    // 用于存储消息列表
-    static List<String> msgList = new ArrayList<>();
-
     // 进程计时器
     static ProcessStatus processStatus;
+
+    // 歌曲对象集合
+    static LinkedList<Object> musicList = new LinkedList<Object>();
 
     @Override
     public void onLoad() {
@@ -84,7 +74,6 @@ public class Main extends BasePlugin {
         File ffmpegFile = new File(getDataFolder().getPath() + "\\ffmpeg.exe");
         File musicFile = new File(getDataFolder().getPath() + "\\radio.mp3");
         resPath = res.getAbsolutePath();
-        configPath = configFile.getAbsolutePath();
         menuPath = menuFile.getAbsolutePath();
         mp3Path = musicFile.getAbsolutePath();
         ffmpegPath = ffmpegFile.getAbsolutePath();
@@ -145,9 +134,6 @@ public class Main extends BasePlugin {
                 "\\_| \\_\\__,_|_.__/|_.__/|_|___/_| |_\\_| \\_/\\___/ \\___/|_|\\_\\____/ \\___/|_| |_|\\__, |\n" +
                 "                                                                              __/ |\n" +
                 "                                                                             |___/ \n");
-        getLogger().info("\n================================================\n" +
-                "\t点歌插件已启动 Ver 1.0.0\n" +
-                "================================================");
         // 注册指令
         registerCommands();
         // 监听器
@@ -190,6 +176,7 @@ public class Main extends BasePlugin {
                 .register(this);
 
         new JKookCommand("网易")
+                .addAlias("wy")
                 .setDescription("网易云点歌")
                 .executesUser(new NeteaseAudio())
                 .register(this);
@@ -275,22 +262,6 @@ public class Main extends BasePlugin {
         return netease;
     }
 
-    /**
-     * 获取音乐标题的链接List
-     * @return
-     */
-    public static LinkedList<String> getMusicTitleList() {
-        return musicTitleList;
-    }
-
-    /**
-     * 获取音乐封面的List
-     * @return
-     */
-    public static LinkedList<String> getMusicPicList() {
-        return musicPicList;
-    }
-
     public static Bilibili getBilibili() {
         return bilibili;
     }
@@ -323,14 +294,6 @@ public class Main extends BasePlugin {
     }
 
     /**
-     * 获取消息列表
-     * @return
-     */
-    public static List<String> getMsgList() {
-        return msgList;
-    }
-
-    /**
      * 获取计时器
      * @return
      */
@@ -344,14 +307,6 @@ public class Main extends BasePlugin {
      */
     public static void setProcessStatus(ProcessStatus processStatus) {
         Main.processStatus = processStatus;
-    }
-
-    /**
-     * 存储歌曲ID
-     * @return
-     */
-    public static LinkedList<Integer> getMusicIdList() {
-        return musicIdList;
     }
 
     public static QQMusic getQqMusic() {
@@ -370,4 +325,7 @@ public class Main extends BasePlugin {
         return menuPath;
     }
 
+    public static LinkedList<Object> getMusicList() {
+        return musicList;
+    }
 }

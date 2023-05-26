@@ -7,8 +7,8 @@ import me.realseek.voice.JoinVoice;
 
 public class StopAll {
     public static void over(){
-        // 断开语音
-        JoinVoice.disconnect();
+        // 清空所有
+        Main.getMusicList().clear();
         // 关闭检测
         Main.getProcessStatus().close();
         // 关闭进程
@@ -20,12 +20,7 @@ public class StopAll {
         if (PlayMusic.getBotMessage() != null) {
             PlayMusic.getBotMessage().delete();
         }
-        // 清空所有
-        // 标题
-        Main.getMusicTitleList().clear();
-        // 封面
-        Main.getMusicPicList().clear();
-        // 歌曲ID
-        Main.getMusicIdList().clear();
+        // 断开语音
+        JoinVoice.disconnect();
     }
 }
