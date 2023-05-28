@@ -1,5 +1,5 @@
 name: RubbishKookSong
-version: 1.1.0
+version: 1.2.0
 api-version: 0.49.0
 authors: ["RealSeek"]
-main: me.realseek.Main
+main: me.realseek.ordersong.Main

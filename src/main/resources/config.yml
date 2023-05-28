@@ -1,27 +1,22 @@
-﻿#网易云api的地址
-#默认为 http://localhost:3000
+﻿# 网易云 api 的地址
+# 默认为 http://localhost:3000
 Netease_API_URL: "http://localhost:3000"
 
-#QQ音乐api的地址
-#默认为 http://localhost:3300
+# QQ音乐 api 的地址
+# 默认为 http://localhost:3300
 QQMusic_API_URL: "http://localhost:3300"
 
-# 网易云api扫码登录返回的cookie
+# 网易云api 扫码登录返回的 cookie
 Netease_Url_Cookie: ""
 
-# QQ音乐api需要登录的QQ号
+# QQ音乐 api 需要登录的QQ号
 QQMusic_ID: ""
 
-# QQ音乐api登录cookie 注意必须和QQ号对应
+# QQ音乐 api 登录 cookie 注意必须和QQ号对应
 QQMusic_Url_Cookie: ""
+
+# B站扫码返回的 Cookie
+Bilibili_Cookie:
 
 # 插件管理员ID
 BotAdmin: ["2038278961", "管理员ID"]
-
-# ZMQ推流进程PID（用于处理未被关闭的进程）
-# 如果你不知道这个是什么意思，请不要乱动
-ZMQPID:
-
-# 音乐推流进程PID（用于处理未被关闭的进程）
-# 如果你不知道这个是什么意思，请不要乱动
-MusicPID:

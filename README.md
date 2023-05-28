@@ -9,10 +9,10 @@
 		<img src="https://img.shields.io/badge/JDK-8+-brightgreen.svg"  alt=""/>
 	</a>
     <a  href="https://github.com/SNWCreations/JKook">
-		<img src="https://img.shields.io/badge/JKook%20API-3e89cde-brightgreen"  alt=""/>
+		<img src="https://img.shields.io/badge/JKook%20API-0.49.0-brightgreen"  alt=""/>
 	</a>
     <a href="https://github.com/SNWCreations/KookBC">
-        <img src="https://img.shields.io/badge/KookBC-0.27.0-brightgreen" alt=""/>
+        <img src="https://img.shields.io/badge/KookBC-0.27.0 releases-brightgreen" alt=""/>
     </a>
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt=""/>
