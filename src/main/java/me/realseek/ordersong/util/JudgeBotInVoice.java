@@ -25,7 +25,7 @@ public class JudgeBotInVoice {
             for (VoiceChannel voiceChannel : next) {
                 // 获取 sender 的语音频道id
                 userVoidChannel = voiceChannel.getId();
-                System.out.println("以获取用户频道");
+                // System.out.println("以获取用户频道");
             }
         }
 

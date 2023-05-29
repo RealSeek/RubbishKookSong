@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class CheckBiliQRStatus {
     public static void checkStatus(){
         Timer timer = new Timer();
-        TextChannelMessage loginMsg = Main.getInstance().getCore().getUnsafe().getTextChannelMessage(NeteaseLogin.getLoginMsg());
+        TextChannelMessage loginMsg = Main.getInstance().getCore().getHttpAPI().getTextChannelMessage(Main.getLoginMsg());
         // 安排一个任务在指定时间之后执行，并在 60 秒后停止
         // 安排一个任务按固定间隔时间执行
         timer.schedule(new TimerTask() {

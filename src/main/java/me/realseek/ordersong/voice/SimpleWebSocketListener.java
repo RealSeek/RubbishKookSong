@@ -64,7 +64,7 @@ public class SimpleWebSocketListener extends WebSocketListener {
             FFmpegPort = rtcpPort;
             rtp = String.format("rtp://%s:%s?rtcpport=%s", addr, port, rtcpPort);
             future.complete(rtp);
-            System.out.println("获取到的rtp:" + rtp);
+            // System.out.println("获取到的rtp:" + rtp);
             JsonObject object = JsonParser.parseString(Constants.STAGE_4).getAsJsonObject();
             JsonObject data1 = object.getAsJsonObject("data");
             data1.remove("transportId");

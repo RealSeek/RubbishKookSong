@@ -12,10 +12,6 @@ import snw.jkook.message.component.FileComponent;
 import java.io.File;
 
 public class BilibiliLogin implements UserCommandExecutor {
-    /**
-     * 二维码的消息uuid
-     */
-    static String loginMsg;
 
     @Override
     public void onCommand(User sender, Object[] arguments, @Nullable Message message) {
@@ -26,15 +22,7 @@ public class BilibiliLogin implements UserCommandExecutor {
         // new 一个图片类型用于发送
         FileComponent loginImage = new FileComponent(QRCodeUrl,"二维码", 200, FileComponent.Type.IMAGE);
 
-        loginMsg = message.reply(loginImage);
+        // 设置
+        Main.setLoginMsg(message.reply(loginImage));
     }
-
-    /**
-     * 获取二维码消息的 uuid
-     * @return
-     */
-    public static String getLoginMsg() {
-        return loginMsg;
-    }
-
 }

@@ -4,10 +4,14 @@ import me.realseek.ordersong.Main;
 import me.realseek.ordersong.timer.ProcessStatus;
 import me.realseek.ordersong.util.Card;
 import me.realseek.ordersong.util.DownloadMp3;
+import me.realseek.ordersong.util.SystemType;
 import me.realseek.ordersong.voice.SimpleWebSocketListener;
 import snw.jkook.message.TextChannelMessage;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class PlayMusic{
     // 播放音乐进程
@@ -39,23 +43,36 @@ public class PlayMusic{
             msgMusicUUID = Main.getMessage().sendToSource(Card.playCard());
             botMessage = Main.getInstance().getCore().getHttpAPI().getTextChannelMessage(msgMusicUUID);
 
+            // 根据系统判断路径
+            String os = "Windows";
+            String mp3Path;
+            if (os.equals(SystemType.getOperatingSystemType())){
+                mp3Path = "\"" + Main.getMp3Path() + "\"";
+            }else mp3Path = "radio.mp3";
+
             // 构建推流命令
             String playMusic = String.format
-                    ("%s -re -nostats -i \"%s\" -acodec libopus -ab 128k -f mpegts zmq:tcp://127.0.0.1:" + SimpleWebSocketListener.getFFmpegPort()
-                            , Main.getFFmpegPath(), Main.getMp3Path());
+                    ("%s -re -nostats -i %s -acodec libopus -ab 128k -f mpegts zmq:tcp://127.0.0.1:" + SimpleWebSocketListener.getFFmpegPort()
+                            , Main.getFFmpegPath(), mp3Path);
+
+            // System.out.println(playMusic);
+
             ProcessBuilder pb = new ProcessBuilder(playMusic.split(" "));
-            pb.redirectErrorStream(true);
+            pb.directory(new File(Main.getResPath()));
+            // pb.redirectErrorStream(true);
             // 启动
             playMusicProcess = pb.start();
+            // System.out.println("启动完成");
             // 设置播放状态为开启
             Main.setPlayStatus(true);
             // 等待播放线程完毕
             playMusicProcess.waitFor();
-            // 如果点击了下一首按钮
+            // 正常播放下一首按钮
             if (!del) {
                 if (Main.getMusicList().size() > 0) {
                     // 移除一个
                     Main.getMusicList().remove(0);
+                    // System.out.println("被移除力QAQ");
                 }
             }
         }

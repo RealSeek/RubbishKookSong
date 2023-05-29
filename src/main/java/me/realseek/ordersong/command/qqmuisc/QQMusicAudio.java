@@ -16,7 +16,7 @@ public class QQMusicAudio implements UserCommandExecutor {
     public void onCommand(User sender, Object[] arguments, @Nullable Message message) {
         if (InChannel.inChannel(sender, arguments, message)) {
             try {
-                System.out.println("进入QQ音乐点歌");
+                // System.out.println("进入QQ音乐点歌");
                 // 传出Message
                 Main.setMessage(message);
                 // 获取处理后的点歌参数

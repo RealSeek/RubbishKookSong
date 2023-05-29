@@ -36,6 +36,6 @@ public class Config {
      * @return {@code String} Bilibili Cookie
      */
     public static String getBilibiliCookie() {
-        return plugin.getConfig().getString("Bilibili_Cookie");
+        return plugin.getConfig().getString("Bilibili_Cookie", "");
     }
 }

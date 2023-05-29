@@ -1,5 +1,8 @@
 package me.realseek.ordersong.util;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.StreamProgress;
+import cn.hutool.core.lang.Console;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpRequest;
@@ -16,7 +19,7 @@ import me.realseek.ordersong.pojo.QQMusic;
 import java.io.File;
 
 public class DownloadMp3 {
-    static File file = new File(Main.getResPath() + "\\radio.mp3");
+    static File file = new File(Main.getMp3Path());
     static boolean fileState = true;
     /**
      * 用于下载歌曲文件

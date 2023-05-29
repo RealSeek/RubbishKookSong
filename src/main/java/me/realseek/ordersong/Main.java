@@ -16,18 +16,14 @@ import me.realseek.ordersong.pojo.Bilibili;
 import me.realseek.ordersong.pojo.Netease;
 import me.realseek.ordersong.pojo.QQMusic;
 import me.realseek.ordersong.timer.ProcessStatus;
+import me.realseek.ordersong.util.FileInit;
 import snw.jkook.JKook;
 import snw.jkook.command.JKookCommand;
 import snw.jkook.event.Listener;
 import snw.jkook.message.Message;
 import snw.jkook.plugin.BasePlugin;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main extends BasePlugin {
     private static Main instance;
@@ -46,6 +42,11 @@ public class Main extends BasePlugin {
 
     // Bilibili对象
     static Bilibili bilibili = new Bilibili();
+
+    /**
+     * 二维码的消息uuid
+     */
+    static String loginMsg;
 
     // 用于构建消息
     static Message message;
@@ -66,63 +67,13 @@ public class Main extends BasePlugin {
     public void onLoad() {
         getLogger().info("插件初始化中...");
         instance = this;
-        // 配置路径
-        File res = new File(getDataFolder().getPath());
-        File configFile = new File(getDataFolder().getPath() + "\\config.yml");
-        File menuFile = new File(getDataFolder().getPath() + "\\menu.jpg");
-        File ffmpegFile = new File(getDataFolder().getPath() + "\\ffmpeg.exe");
-        File musicFile = new File(getDataFolder().getPath() + "\\radio.mp3");
-        resPath = res.getAbsolutePath();
-        menuPath = menuFile.getAbsolutePath();
-        mp3Path = musicFile.getAbsolutePath();
-        ffmpegPath = ffmpegFile.getAbsolutePath();
-
-        // 获取token
-        File kbc = new File("kbc.yml");
-        // 创建一个 Scanner 对象来读取文件内容
-        try (Scanner scanner = new Scanner(kbc)) {
-            // 使用正则表达式匹配 token 的值
-            Pattern pattern = Pattern.compile("token:\\s*\"(.*)\"");
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.matches()) {
-                    // 输出 token 的值
-                    token = matcher.group(1);
-                    break;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        // 保存资源到 config
-        if (!ffmpegFile.isFile()) {
-            System.out.println("未检测到ffmpeg，已为你重新加载");
-            saveResource("ffmpeg.exe", false, false);
-        }
-
-        if (!configFile.isFile()){
-            System.out.println("未检测到配置文件，已为你重新加载");
-            saveDefaultConfig();
-        }
-
-        if (!menuFile.isFile()){
-            System.out.println("未检测到菜单，已为你重新加载");
-            saveResource("menu.jpg", false, false);
-        }
-
+        // 初始化
+        FileInit.FileInit();
         getLogger().info("初始化结束！");
     }
 
     @Override
     public void onEnable() {
-        // 防止出现推流文件出现问题
-        File mp3 = new File(Main.getResPath() + "\\radio.mp3");
-        if (mp3.exists()){
-            mp3.delete();
-            System.out.println("检测到radio.mp3 , 为了确保第一次推流不会出现问题，已删除");
-        }
         // 烂活
         getLogger().info("\n" +
                 "______      _     _     _     _     _   __            _    _____                   \n" +
@@ -141,7 +92,7 @@ public class Main extends BasePlugin {
 
     @Override
     public void onDisable() {
-        System.out.println("点歌插件已卸载");
+        System.out.println("点歌插件已卸载，感谢你的使用");
         super.onDisable();
     }
 
@@ -338,5 +289,33 @@ public class Main extends BasePlugin {
 
     public static LinkedList<Object> getMusicList() {
         return musicList;
+    }
+
+    public static String getLoginMsg() {
+        return loginMsg;
+    }
+
+    public static void setLoginMsg(String loginMsg) {
+        Main.loginMsg = loginMsg;
+    }
+
+    public static void setFfmpegPath(String ffmpegPath) {
+        Main.ffmpegPath = ffmpegPath;
+    }
+
+    public static void setResPath(String resPath) {
+        Main.resPath = resPath;
+    }
+
+    public static void setMenuPath(String menuPath) {
+        Main.menuPath = menuPath;
+    }
+
+    public static void setMp3Path(String mp3Path) {
+        Main.mp3Path = mp3Path;
+    }
+
+    public static void setToken(String token) {
+        Main.token = token;
     }
 }

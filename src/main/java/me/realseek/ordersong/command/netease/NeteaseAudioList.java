@@ -20,7 +20,7 @@ public class NeteaseAudioList implements UserCommandExecutor {
         try {
             // 判断 sender 是否在语音频道内
             if (InChannel.inChannel(sender, arguments, message)) {
-                System.out.println("进入网易云歌单点歌");
+                // System.out.println("进入网易云歌单点歌");
                 // 传出Message
                 Main.setMessage(message);
                 // 获取处理后的点歌参数

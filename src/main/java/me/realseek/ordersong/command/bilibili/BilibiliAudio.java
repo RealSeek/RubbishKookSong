@@ -17,7 +17,7 @@ public class BilibiliAudio implements UserCommandExecutor {
     public void onCommand(User sender, Object[] arguments, @Nullable Message message) {
         if (InChannel.inChannel(sender,arguments,message)) {
             try {
-                System.out.println("进入B站点歌");
+                // System.out.println("进入B站点歌");
 
                 // 传出Message
                 Main.setMessage(message);

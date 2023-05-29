@@ -29,7 +29,7 @@ public class FFmpeg implements Runnable{
         pb1.redirectErrorStream(true);
         try {
             ZMQ = pb1.start();
-            System.out.println("ZMQ服务已启动！");
+            // System.out.println("ZMQ服务已启动！");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

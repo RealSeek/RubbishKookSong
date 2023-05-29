@@ -202,17 +202,6 @@ public class BilibiliMethod {
                                 .toString())
                         .build()
         ).execute()) {
-            System.out.println(UrlBuilder.of(bilibiliAPIURL)
-                    .addPath("x")
-                    .addPath("player")
-                    .addPath("wbi")
-                    .addPath("playurl")
-                    .addQuery("fnval", 16)
-                    .addQuery("bvid", BVId)
-                    .addQuery("cid", bilibili.getCid())
-                    .addQuery("wts", unixTimestamp)
-                    .addQuery("w_rid", Wbi.getW_rid(unixTimestamp, BVId, cid))
-                    .toString());
             JsonObject jsonObject = JsonParser.parseString(response.body().string()).getAsJsonObject();
             temp = jsonObject;
             String audioUrl = jsonObject.get("data").getAsJsonObject()

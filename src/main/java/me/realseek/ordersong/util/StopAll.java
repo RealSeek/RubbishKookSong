@@ -14,7 +14,9 @@ public class StopAll {
         // 关闭进程
         if (FFmpeg.getZMQ().isAlive()) {
             FFmpeg.getZMQ().destroy();
-            PlayMusic.getPlayMusicProcess().destroy();
+            if (PlayMusic.getPlayMusicProcess().isAlive()) {
+                PlayMusic.getPlayMusicProcess().destroy();
+            }
         }
         // 删除消息
         if (PlayMusic.getBotMessage() != null) {
