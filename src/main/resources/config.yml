@@ -16,7 +16,7 @@ QQMusic_ID: ""
 QQMusic_Url_Cookie: ""
 
 # B站扫码返回的 Cookie
-Bilibili_Cookie:
+Bilibili_Cookie: ""
 
 # 插件管理员ID
 BotAdmin: ["2038278961", "管理员ID"]

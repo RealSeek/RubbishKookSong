@@ -1,5 +1,7 @@
 package me.realseek.ordersong.util;
 
+import cn.hutool.core.io.StreamProgress;
+import cn.hutool.http.HttpUtil;
 import me.realseek.ordersong.Main;
 import org.yaml.snakeyaml.Yaml;
 
@@ -13,7 +15,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileInit {
+    private static long totalSize;
+    private static long lastUpdated = System.currentTimeMillis();
     public static void FileInit(){
+
         String os = "Windows";
 
         File res = new File(SystemType.processFilePath(Main.getInstance().getDataFolder().getPath()));
@@ -74,15 +79,37 @@ public class FileInit {
         // 保存资源到 config
         if (os.equals(SystemType.getOperatingSystemType())) {
             if (!ffmpegFile.isFile()) {
-                System.out.println("未检测到ffmpeg，已为你重新加载");
-                Main.getInstance().saveResource("ffmpeg.exe", false, false);
+                Main.getInstance().getLogger().info("未检测到ffmpeg，正在自动下载");
+                HttpUtil.downloadFile("http://nat1.rbqcloud.cn:30022/download", ffmpegFile, new StreamProgress(){
+
+                    @Override
+                    public void start() {
+                        Main.getInstance().getLogger().info("开始下载ffmpeg（不保证为最新）");
+                    }
+
+                    @Override
+                    public void progress(long total, long progress) {
+                        totalSize = total;
+                        long currentTime = System.currentTimeMillis();
+                        if (currentTime - lastUpdated >= 250) {
+                            lastUpdated = currentTime;
+                            double progressPercentage = (double) progress / total * 100;
+                            Main.getInstance().getLogger().info("已下载：" + (int)progressPercentage + "%");
+                        }
+                    }
+
+                    @Override
+                    public void finish() {
+                        Main.getInstance().getLogger().info("下载完成！");
+                    }
+                });
             }
         }else {
             Main.getInstance().getLogger().info("你的系统为Linux，需要自己安装ffmpeg");
         }
 
         if (!configFile.isFile()){
-            System.out.println("未检测到配置文件，已为你重新加载");
+            Main.getInstance().getLogger().info("未检测到配置文件，已为你重新加载");
             Main.getInstance().saveDefaultConfig();
         }
 
@@ -90,7 +117,7 @@ public class FileInit {
         File mp3 = new File(Main.getResPath() + "\\radio.mp3");
         if (mp3.exists()){
             mp3.delete();
-            System.out.println("检测到radio.mp3 , 为了确保第一次推流不会出现问题，已删除");
+            Main.getInstance().getLogger().info("检测到radio.mp3 , 为了确保第一次推流不会出现问题，已删除");
         }
     }
 }

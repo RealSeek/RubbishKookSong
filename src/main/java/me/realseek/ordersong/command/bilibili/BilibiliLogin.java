@@ -28,6 +28,6 @@ public class BilibiliLogin implements UserCommandExecutor {
         // 设置
         Main.setLoginMsg(message.reply(loginImage));
         // 检测登录
-        CheckBiliQRStatus.checkStatus();
+        CheckBiliQRStatus.checkStatus(message);
     }
 }

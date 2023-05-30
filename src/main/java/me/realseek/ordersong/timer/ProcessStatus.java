@@ -1,11 +1,13 @@
 package me.realseek.ordersong.timer;
 
 import me.realseek.ordersong.Main;
+import me.realseek.ordersong.ffmpeg.FFmpeg;
 import me.realseek.ordersong.ffmpeg.PlayMusic;
 import me.realseek.ordersong.util.Card;
 import me.realseek.ordersong.util.StopAll;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,21 +19,29 @@ public class ProcessStatus {
     }
 
     public void start() {
-        if (Main.getMusicList().isEmpty()) {
-            System.out.println("检测到列表为空，为避免不必要的麻烦，请手动输入/停止或等待机器人自动退出");
-            Main.setPlayStatus(false);
-            // 更新卡片
-            // 删除消息
-            if (!PlayMusic.isFist()) {
-                PlayMusic.getBotMessage().delete();
+        try {
+            if (Main.getMusicList().isEmpty()) {
+                Main.setPlayStatus(false);
+                // 更新卡片
+                if (FFmpeg.getZMQ().isAlive()) {
+                    Main.getInstance().getLogger().info("检测到列表为空，为避免不必要的麻烦，请手动输入/停止或等待机器人自动退出");
+                    // 删除消息
+                    if (!PlayMusic.isFist()) {
+                        PlayMusic.getBotMessage().delete();
+                    }
+                    // 发送队列无播放歌曲的卡片
+                    PlayMusic.setMsgMusicUUID(Main.getMessage().sendToSource(Card.noPlayCard()));
+                    // 获取这条消息的uuid
+                    PlayMusic.setBotMessage(Main.getInstance().getCore().getHttpAPI().getTextChannelMessage(PlayMusic.getMsgMusicUUID()));
+                }else {
+                    close();
+                }
             }
-            // 发送队列无播放歌曲的卡片
-            PlayMusic.setMsgMusicUUID(Main.getMessage().sendToSource(Card.noPlayCard()));
-            // 获取这条消息的uuid
-            PlayMusic.setBotMessage(Main.getInstance().getCore().getHttpAPI().getTextChannelMessage(PlayMusic.getMsgMusicUUID()));
+            timer.schedule(new DetectionTask(), 0, 1000);// 每秒执行一次任务
+            timer.schedule(new CloseTask(), 30000); // 30秒后执行关闭
+        } catch (IllegalStateException e) {
+
         }
-        timer.schedule(new DetectionTask(), 0, 1000);// 每秒执行一次任务
-        timer.schedule(new CloseTask(), 30000); // 30秒后执行关闭
     }
 
     public void close() {
@@ -60,7 +70,7 @@ public class ProcessStatus {
         public void run() {
             // 关闭所有
             StopAll.over();
-            System.out.println("感谢你的使用，为了保证不占用资源，已自动退出频道");
+            Main.getInstance().getLogger().info("感谢你的使用，为了保证不占用资源，已自动退出频道");
         }
     }
 }

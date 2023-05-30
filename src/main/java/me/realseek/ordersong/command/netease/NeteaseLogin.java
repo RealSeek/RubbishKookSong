@@ -28,6 +28,6 @@ public class NeteaseLogin implements UserCommandExecutor {
         // 设置
         Main.setLoginMsg(message.reply(loginImage));
         // 检测登录
-        CheckNeteaseQRStatus.checkStatus();
+        CheckNeteaseQRStatus.checkStatus(message);
     }
 }
