@@ -6,18 +6,13 @@ import me.realseek.ordersong.timer.CheckNeteaseQRStatus;
 import me.realseek.ordersong.util.apimethod.NeteaseMethod;
 
 public class NeteaseAPI {
-    static Netease netease = Main.getNetease();
     /**
      * 网易云API登录方法
      */
     public static String neteaseLogin() {
-        netease.setUnikey(NeteaseMethod.getUnikey());
-        netease.setQRCodeUrl(NeteaseMethod.getQRCode(netease.getUnikey()));
-        String QRCodeUrl = netease.getQRCodeUrl();
-        System.out.println(QRCodeUrl);
-        // 检测登录
-        CheckNeteaseQRStatus.checkStatus();
-        return QRCodeUrl;
+        Main.getNetease().setUnikey(NeteaseMethod.getUnikey());
+        Main.getNetease().setQRCodeUrl(NeteaseMethod.getQRCode(Main.getNetease().getUnikey()));
+        return Main.getNetease().getQRCodeUrl();
     }
 
     /**

@@ -6,16 +6,12 @@ import me.realseek.ordersong.timer.CheckBiliQRStatus;
 import me.realseek.ordersong.util.apimethod.BilibiliMethod;
 
 public class BilibiliAPI {
-    static Bilibili bilibili = Main.getBilibili();
     /**
      * B站扫码登录（防止被反扒标记）
      */
     public static String biliLogin(){
         // 获取到扫码登录的 url 和 key
-        String url = BilibiliMethod.getBiliLoginUrl();
-        // 检测登录
-        CheckBiliQRStatus.checkStatus();
-        return url;
+        return BilibiliMethod.getBiliLoginUrl();
     }
 
     /**

@@ -1,11 +1,11 @@
 package me.realseek.ordersong.util;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -61,7 +61,7 @@ public class Wbi {
         // 拼接参数
         String parameters = "bvid=" + BVid + "&cid=" + cid + "&fnval=16&wts=" + unixTimestamp + reMap;
 
-        return DigestUtils.md5Hex(parameters);
+        return DigestUtil.md5Hex(parameters);
     }
 
     private static final int[] mixinKeyEncTab = {
