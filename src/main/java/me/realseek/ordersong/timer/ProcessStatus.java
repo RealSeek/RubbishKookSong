@@ -40,7 +40,7 @@ public class ProcessStatus {
             timer.schedule(new DetectionTask(), 0, 1000);// 每秒执行一次任务
             timer.schedule(new CloseTask(), 30000); // 30秒后执行关闭
         } catch (IllegalStateException e) {
-
+            // 我知道这块会报错，但是不需要进行任何处理，因为它会正常工作
         }
     }
 
